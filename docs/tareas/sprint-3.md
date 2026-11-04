@@ -40,7 +40,7 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** recargar con token válido → Cargando → `/publicaciones`; sin token → `/login`; token alterado → 401 en la próxima petición, aviso y `/login`; `/mi-perfil` sin sesión redirige al login.
 - **Depende de:** S3-01
 
-### [ ] S3-05 · Front: aviso de vencimiento y extensión de sesión
+### [~] S3-05 · Front: aviso de vencimiento y extensión de sesión
 - **Qué:** `SesionService` programa el aviso en (exp − 5 min); modal «¿Querés extender tu sesión?»; Sí → E-04 y reprograma; No → cierre al vencer (S-15); revisión al volver a la pestaña (`visibilitychange`); variable de entorno que acorta los tiempos en desarrollo.
 - **Docs:** Doc 1 RF-10, S-15 · Doc 3 §5.2.
 - **Validar:** a los 10 min del login aparece el modal; «Extender» entrega un token nuevo y reprograma; «No» cierra la sesión al vencer.

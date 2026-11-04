@@ -5,8 +5,8 @@
       <p>{{ modal.mensaje }}</p>
       <div class="acciones">
         @if (modal.tipo === 'confirmacion') {
-          <button type="button" class="boton boton-secundario" (click)="modalService.cerrar(false)">Cancelar</button>
-          <button type="button" class="boton" (click)="modalService.cerrar(true)">Confirmar</button>
+          <button type="button" class="boton boton-secundario" (click)="modalService.cerrar(false)">{{ modal.textoCancelar }}</button>
+          <button type="button" class="boton" (click)="modalService.cerrar(true)">{{ modal.textoConfirmar }}</button>
         } @else {
           <button type="button" class="boton" (click)="modalService.cerrar(true)">Aceptar</button>
         }

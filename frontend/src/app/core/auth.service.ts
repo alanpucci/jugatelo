@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Usuario } from '../features/usuarios/usuario.model';
-import { CredencialesLogin, RespuestaAuth, RespuestaAutorizar } from './auth.model';
+import { CredencialesLogin, RespuestaAuth, RespuestaAutorizar, RespuestaRefrescar } from './auth.model';
 import { TokenService } from './token.service';
 
 @Injectable({ providedIn: 'root' })
@@ -36,6 +36,13 @@ export class AuthService {
     );
     this.usuarioActual.set(respuesta.usuario);
     this.haySesion.set(true);
+  }
+
+  async refrescar() {
+    const respuesta = await firstValueFrom(
+      this.http.post<RespuestaRefrescar>(`${environment.apiUrl}/auth/refrescar`, {}),
+    );
+    this.tokenService.guardar(respuesta.token);
   }
 
   cerrarSesion() {

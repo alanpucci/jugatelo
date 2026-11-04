@@ -13,3 +13,7 @@ export interface CredencialesLogin {
 export interface RespuestaAutorizar {
   usuario: Usuario;
 }
+
+export interface RespuestaRefrescar {
+  token: string;
+}

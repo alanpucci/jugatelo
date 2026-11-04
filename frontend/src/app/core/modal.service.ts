@@ -6,6 +6,8 @@ export interface EstadoModal {
   tipo: TipoModal;
   titulo: string;
   mensaje: string;
+  textoConfirmar?: string;
+  textoCancelar?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -21,8 +23,8 @@ export class ModalService {
     this.estado.set({ tipo: 'error', titulo, mensaje });
   }
 
-  confirmar(mensaje: string, titulo = 'Confirmar') {
-    this.estado.set({ tipo: 'confirmacion', titulo, mensaje });
+  confirmar(mensaje: string, titulo = 'Confirmar', textoConfirmar = 'Confirmar', textoCancelar = 'Cancelar') {
+    this.estado.set({ tipo: 'confirmacion', titulo, mensaje, textoConfirmar, textoCancelar });
     return new Promise<boolean>((resolver) => {
       this.resolverConfirmacion = resolver;
     });

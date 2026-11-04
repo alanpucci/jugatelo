@@ -39,7 +39,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 
 | Tarea | Exigido en | Hacerlo en | Por qué |
 |---|---|---|---|
-| Generar el JWT en login y registro (payload `{ id, correo, nombreUsuario, perfil }`, 15 min) | S3 | **S1** | En S2 el back necesita saber quién crea, borra o da me gusta; sin token habría que mandar el id en el body y reescribir todo. |
+| Generar el JWT en login y registro (payload `{ sub, correo, nombreUsuario, perfil }`, 15 min) | S3 | **S1** | En S2 el back necesita saber quién crea, borra o da me gusta; sin token habría que mandar el id en el body y reescribir todo. |
 | JwtAuthGuard + `AuthService.obtenerUsuarioDelToken` en Nest | S3 | S2 | Lo usan E-05, E-08, E-09 y E-10 para tomar el usuario del token. |
 | authInterceptor (agrega `Authorization: Bearer`) | S3 | S2 | Todas las llamadas de S2 ya van con token. |
 | TokenService (localStorage) y AuthService con usuario actual | S3 | **S1** | Mi Perfil (S2) muestra datos del usuario logueado. |
@@ -90,7 +90,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] RegistroDto y LoginDto con class-validator (RN-01, S-07, S-24).
 - [ ] `POST /auth/registro`: `FileInterceptor('imagenPerfil', memoryStorage)` + `ParseFilePipe` (S-23); verificar unicidad (409); `bcrypt.hash(contrasena, 10)`; subir imagen; guardar; responder 201 `{ usuario, token }`.
 - [ ] `POST /auth/login` con `@HttpCode(200)`: `findOne` por correo con `select('+contrasena')`; `bcrypt.compare`; 401 si no coincide; responder `{ usuario, token }`.
-- [ ] JwtModule con `expiresIn: '15m'` y payload `{ id, correo, nombreUsuario, perfil }` — *adelantado*.
+- [ ] JwtModule con `expiresIn: '15m'` y payload `{ sub, correo, nombreUsuario, perfil }` — *adelantado*.
 - [ ] Mapeo de respuesta de usuario sin `contrasena` ni `imagenPerfilPublicId` (RN-09).
 - [ ] Traducir error E11000 a 409 (filtro o try/catch en el servicio).
 - [ ] Deploy del back; probar E-01 y E-02 con Postman/Thunder Client contra la URL pública.
@@ -229,7 +229,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - `comentarios`: empiezan a crearse documentos; campo `modificado`; índice `{ publicacion: 1, createdAt: -1 }`.
 
 ### 5.6 Criterios de aceptación
-- [ ] El token decodificado (p. ej. en jwt.io) tiene `{ id, correo, nombreUsuario, perfil }` y `exp − iat = 900`.
+- [ ] El token decodificado (p. ej. en jwt.io) tiene `{ sub, correo, nombreUsuario, perfil }` y `exp − iat = 900`.
 - [ ] Recargar la app con token válido → Cargando → /publicaciones; sin token → /login.
 - [ ] Token alterado en localStorage → la próxima petición devuelve 401 y la app va al login con aviso.
 - [ ] A los 10 minutos del login aparece el modal; «Extender» devuelve un token nuevo y el aviso vuelve a programarse.
@@ -369,7 +369,7 @@ src/
 │  ├─ auth.module.ts · auth.controller.ts · auth.service.ts   # /auth (E-01 a E-04)
 │  ├─ guards/              # jwt-auth.guard.ts · admin.guard.ts
 │  ├─ decorators/          # usuario-actual.decorator.ts
-│  ├─ interfaces/          # jwt-payload.interface.ts { id, correo, nombreUsuario, perfil }
+│  ├─ interfaces/          # jwt-payload.interface.ts { sub, correo, nombreUsuario, perfil }
 │  └─ dto/                 # registro.dto.ts · login.dto.ts
 ├─ usuarios/
 │  ├─ usuarios.module.ts · usuarios.controller.ts · usuarios.service.ts   # /usuarios (E-14 a E-17)

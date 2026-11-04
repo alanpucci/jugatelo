@@ -33,7 +33,7 @@ Fuera de alcance: Sprint 5 (recuperatorio) y 6 (final): perfiles de otros usuari
 
 - Login por **correo + contraseña**. `correo` único; `nombreUsuario` también único.
 - Contraseñas con **bcrypt (10 rondas)**; el login usa `bcrypt.compare`.
-- **JWT** payload `{ id, correo, nombreUsuario, perfil }`, vence en **15 min**. Se devuelve en el body de login y registro; el front lo guarda en localStorage y lo envía en `Authorization: Bearer <token>`. El refresco reenvía el token vigente a `POST /auth/refrescar` (sin refresh token separado).
+- **JWT** payload `{ sub, correo, nombreUsuario, perfil }`, vence en **15 min**. Se devuelve en el body de login y registro; el front lo guarda en localStorage y lo envía en `Authorization: Bearer <token>`. El refresco reenvía el token vigente a `POST /auth/refrescar` (sin refresh token separado).
 - Imágenes de perfil y publicaciones: Multer (`FileInterceptor` con `memoryStorage`) → Cloudinary. En Mongo solo URL y public_id.
 - Bajas lógicas con booleano: `usuarios.habilitado` y `publicaciones.activa`. Nada se borra físicamente.
 - MongoDB Atlas. Hosting front/back: [COMPLETAR] (ej. Vercel/Netlify/Firebase; Render/Railway/Koyeb).
@@ -50,7 +50,7 @@ Fuera de alcance: Sprint 5 (recuperatorio) y 6 (final): perfiles de otros usuari
 | RF-04 | Recibir la imagen de perfil, subirla a Cloudinary y guardar su URL. | S1 |
 | RF-05 | Asignar perfil «usuario» por defecto a todo registro público. | S1 |
 | RF-06 | Iniciar sesión con correo y contraseña sin encriptar; devolver todos los datos del usuario (excepto contrasena, RN-09). | S1 |
-| RF-07 | Generar JWT en login y registro con payload `{ id, correo, nombreUsuario, perfil }`, vence a los 15 min, devolverlo en la respuesta. | S3 |
+| RF-07 | Generar JWT en login y registro con payload `{ sub, correo, nombreUsuario, perfil }`, vence a los 15 min, devolverlo en la respuesta. | S3 |
 | RF-08 | Guardar el token en localStorage al loguearse o registrarse. | S3 |
 | RF-09 | Al iniciar la app mostrar Cargando y validar el token contra `/auth/autorizar`; si es válido ir a Publicaciones, si no a Login. | S3 |
 | RF-10 | A los 10 min de iniciada la sesión, modal que avisa que quedan 5 min y ofrece extenderla; si acepta, refrescar el token. | S3 |
@@ -431,5 +431,5 @@ Idéntica en los tres documentos.
 | usuarios | _id, nombre, apellido, correo, nombreUsuario, contrasena, fechaNacimiento, descripcion, imagenPerfilUrl, imagenPerfilPublicId, perfil, habilitado, createdAt, updatedAt |
 | publicaciones | _id, tipo, titulo, descripcion, jugadoresMin, jugadoresMax, zona, fechaJuntada, cupo, imagenUrl, imagenPublicId, usuario, meGusta, cantidadMeGusta, activa, createdAt, updatedAt |
 | comentarios | _id, publicacion, usuario, mensaje, modificado, createdAt, updatedAt |
-| Payload JWT | `{ id, correo, nombreUsuario, perfil }` · vence a los 15 min (exp = iat + 900 s) |
+| Payload JWT | `{ sub, correo, nombreUsuario, perfil }` · vence a los 15 min (exp = iat + 900 s) |
 | Valores de perfil | «usuario» (por defecto) · «administrador» |

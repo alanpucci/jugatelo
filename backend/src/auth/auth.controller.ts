@@ -3,9 +3,11 @@ import {
   Controller,
   HttpCode,
   Post,
+  Req,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
+import type { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { crearPipeImagen } from '../comun/validadores/imagen.validator.js';
@@ -32,5 +34,17 @@ export class AuthController {
   @HttpCode(200)
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
+  }
+
+  @Post('autorizar')
+  @HttpCode(200)
+  autorizar(@Req() peticion: Request) {
+    return this.authService.autorizar(peticion);
+  }
+
+  @Post('refrescar')
+  @HttpCode(200)
+  refrescar(@Req() peticion: Request) {
+    return this.authService.refrescar(peticion);
   }
 }

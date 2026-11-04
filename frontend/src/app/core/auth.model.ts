@@ -9,3 +9,7 @@ export interface CredencialesLogin {
   correo: string;
   contrasena: string;
 }
+
+export interface RespuestaAutorizar {
+  usuario: Usuario;
+}

@@ -15,4 +15,18 @@ export class TokenService {
   borrar() {
     localStorage.removeItem(CLAVE_TOKEN);
   }
+
+  leerExpiracion() {
+    const token = this.leer();
+    if (!token) {
+      return null;
+    }
+    try {
+      const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      const payload = JSON.parse(atob(base64)) as { exp?: number };
+      return payload.exp ? payload.exp * 1000 : null;
+    } catch {
+      return null;
+    }
+  }
 }

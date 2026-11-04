@@ -34,7 +34,7 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 
 > Se aplican las reglas de código del frontend (`frontend/CLAUDE.md`).
 
-### [ ] S3-04 · Front: sesión, Cargando y manejo del 401
+### [~] S3-04 · Front: sesión, Cargando y manejo del 401
 - **Qué:** `TokenService` con localStorage (clave `token`) y decodificación de `exp`; `CargandoComponent` (Spinner + E-03) como ruta inicial `/cargando`; activar `authGuard` e `invitadoGuard`; `tokenInterceptor` con 401 → borrar token, detener `SesionService`, modal y `/login`.
 - **Docs:** Doc 1 CU-03, RN-10 · Doc 3 §5.2.
 - **Validar:** recargar con token válido → Cargando → `/publicaciones`; sin token → `/login`; token alterado → 401 en la próxima petición, aviso y `/login`; `/mi-perfil` sin sesión redirige al login.

@@ -21,7 +21,7 @@ export class RegistroComponent {
 
   protected readonly cargando = signal(false);
 
-  protected registrar(datos: DatosFormularioUsuario) {
+  protected async registrar(datos: DatosFormularioUsuario) {
     const formData = new FormData();
     Object.entries(datos.valores).forEach(([clave, valor]) => formData.append(clave, valor ?? ''));
     if (datos.imagen) {
@@ -29,17 +29,15 @@ export class RegistroComponent {
     }
 
     this.cargando.set(true);
-    this.authService.registrar(formData).subscribe({
-      next: () => {
-        this.cargando.set(false);
-        this.router.navigate(['/publicaciones']);
-        this.modalService.mostrarInfo('Tu cuenta fue creada. ¡Bienvenido a Jugátelo!', 'Bienvenido');
-      },
-      error: (error: HttpErrorResponse) => {
-        this.cargando.set(false);
-        this.modalService.mostrarError(this.mensajeDe(error));
-      },
-    });
+    try {
+      await this.authService.registrar(formData);
+      this.cargando.set(false);
+      this.router.navigate(['/publicaciones']);
+      this.modalService.mostrarInfo('Tu cuenta fue creada. ¡Bienvenido a Jugátelo!', 'Bienvenido');
+    } catch (error) {
+      this.cargando.set(false);
+      this.modalService.mostrarError(this.mensajeDe(error as HttpErrorResponse));
+    }
   }
 
   private mensajeDe(error: HttpErrorResponse) {

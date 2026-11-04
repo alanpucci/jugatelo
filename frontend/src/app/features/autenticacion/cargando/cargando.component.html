@@ -1,0 +1,9 @@
+<section class="cargando">
+  @if (sinConexion()) {
+    <p>No pudimos conectar con el servidor.</p>
+    <button type="button" class="boton" (click)="validarSesion()">Reintentar</button>
+  } @else {
+    <app-spinner />
+    <p>Barajando...</p>
+  }
+</section>

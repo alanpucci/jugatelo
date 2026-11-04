@@ -1,14 +1,20 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth.guard';
+import { authGuard, invitadoGuard } from './core/auth.guard';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: '', pathMatch: 'full', redirectTo: 'cargando' },
+  {
+    path: 'cargando',
+    loadComponent: () => import('./features/autenticacion/cargando/cargando.component').then((m) => m.CargandoComponent),
+  },
   {
     path: 'login',
+    canActivate: [invitadoGuard],
     loadComponent: () => import('./features/autenticacion/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'registro',
+    canActivate: [invitadoGuard],
     loadComponent: () => import('./features/autenticacion/registro/registro.component').then((m) => m.RegistroComponent),
   },
   {

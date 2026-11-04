@@ -1,6 +1,6 @@
 # Doc 1 — Análisis funcional (TP #2 · Red social «Jugátelo»)
 
-Fuente: `1_Analisis_funcional.pdf` (v1.0, 26/10/2026). UTN FRA · TUP · Programación IV. Alcance: Sprints 1 a 4 (se excluyen 5 y 6). Stack: Angular · NestJS · MongoDB Atlas · JWT · Cloudinary.
+Adaptado del enunciado base `1_Analisis_funcional.pdf` (v1.0, 26/10/2026) a la temática de juegos de mesa. UTN FRA · TUP · Programación IV. Alcance: Sprints 1 a 4 (se excluyen 5 y 6). Stack: Angular · NestJS · MongoDB Atlas · JWT · Cloudinary.
 Los tres documentos usan los mismos nombres de entidades, campos, rutas y módulos. Referencias: RF-xx (funcional), RNF-xx (no funcional), RN-xx (regla de negocio), CU-xx (caso de uso), E-xx (endpoint), S-xx (supuesto).
 
 ## 1. Descripción general
@@ -332,7 +332,7 @@ usuario (E-01, E-02, E-03, E-14…; **nunca** incluye `contrasena` ni `imagenPer
   "nombre": "Ana", "apellido": "Gómez",
   "correo": "ana@mail.com", "nombreUsuario": "ana.g",
   "fechaNacimiento": "2001-05-14T00:00:00.000Z",
-  "descripcion": "Me gusta escribir de noche",
+  "descripcion": "Me gustan los juegos de estrategia y las tardes de mesa",
   "imagenPerfilUrl": "https://res.cloudinary.com/.../perfiles/ana.webp",
   "perfil": "usuario", "habilitado": true,
   "createdAt": "2026-10-20T13:02:11.000Z", "updatedAt": "2026-10-20T13:02:11.000Z"
@@ -387,7 +387,7 @@ Paginado y error:
 | S-28 | `zona` es texto libre (barrio/localidad). El filtro por zona busca coincidencia parcial sin distinguir mayúsculas ni tildes de forma estricta (regex escapada). No hay geolocalización. |
 | S-29 | Una juntada cuya `fechaJuntada` ya pasó no se oculta ni se da de baja sola: se muestra con la insignia «Finalizada». |
 | S-30 | `cupo` es informativo: no hay inscripción ni lista de asistentes. Quien quiere ir lo dice en los comentarios. |
-| S-04 | Las publicaciones muestran el autor (nombreUsuario y foto). El anonimato no está pedido. |
+| S-04 | Las publicaciones muestran el autor (nombreUsuario y foto). Se ve siempre quién tiene el juego o quién organiza la juntada. |
 | S-05 | La imagen de perfil es opcional; sin ella se muestra un avatar por defecto (`imagenPerfilUrl = null`). |
 | S-06 | La descripción breve es opcional, máximo 200 caracteres. |
 | S-07 | El back también recibe `repetirContrasena` y valida que coincida (no se guarda). |

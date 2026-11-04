@@ -1,6 +1,6 @@
 # Doc 2 — Modelo de datos MongoDB (TP #2 · «Jugátelo»)
 
-Fuente: `2_Modelo_de_datos_MongoDB.pdf` (v1.0, 26/10/2026). Colecciones `usuarios`, `publicaciones`, `comentarios`: esquemas Mongoose, índices, relaciones, ejemplos y consultas/aggregations de los Sprints 1 a 4. Ver también [1_analisis_funcional.md](1_analisis_funcional.md) y [3_roadmap_por_sprints.md](3_roadmap_por_sprints.md).
+Adaptado del enunciado base `2_Modelo_de_datos_MongoDB.pdf` (v1.0, 26/10/2026) a la temática de juegos de mesa. Colecciones `usuarios`, `publicaciones`, `comentarios`: esquemas Mongoose, índices, relaciones, ejemplos y consultas/aggregations de los Sprints 1 a 4. Ver también [1_analisis_funcional.md](1_analisis_funcional.md) y [3_roadmap_por_sprints.md](3_roadmap_por_sprints.md).
 
 ## 1. Convenciones
 

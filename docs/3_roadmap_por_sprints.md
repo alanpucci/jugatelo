@@ -1,6 +1,6 @@
 # Doc 3 — Roadmap por sprints 1 a 4 (TP #2 · «Jugátelo»)
 
-Fuente: `3_Roadmap_por_sprints.pdf` (v1.0, 26/10/2026). Objetivos, historias de usuario, checklists Front/Back, endpoints, datos, criterios de aceptación, tareas a adelantar, estructura de carpetas, riesgos y preguntas. Ver también [1_analisis_funcional.md](1_analisis_funcional.md) y [2_modelo_de_datos_mongodb.md](2_modelo_de_datos_mongodb.md).
+Adaptado del enunciado base `3_Roadmap_por_sprints.pdf` (v1.0, 26/10/2026) a la temática de juegos de mesa. Objetivos, historias de usuario, checklists Front/Back, endpoints, datos, criterios de aceptación, tareas a adelantar, estructura de carpetas, riesgos y preguntas. Ver también [1_analisis_funcional.md](1_analisis_funcional.md) y [2_modelo_de_datos_mongodb.md](2_modelo_de_datos_mongodb.md).
 
 > **Prioridad para el front:** el roadmap menciona `@Input`/`@Output`, SCSS y la estructura `pages/`+`shared/`. Para el frontend mandan las reglas de código del frontend (input()/output() con default, sin computed, sin comentarios, código en español, etc.). Donde choque con este documento, gana el las reglas de código del frontend. Los marcados con ⚠ abajo son los puntos de choque.
 

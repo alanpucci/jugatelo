@@ -28,6 +28,12 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** comentarios de a 5 del más reciente al más antiguo; mensaje vacío o de más de 500 → 400; editar uno ajeno → 403, el propio → 200 con `modificado: true`; publicación dada de baja → 404 en los tres.
 - **Depende de:** S3-02
 
+### [~] S3-10 · Back: próximas juntadas — GET /publicaciones/proximas-juntadas (E-21)
+- **Qué:** `LimiteQueryDto` (limit 1–10); `find` de juntadas activas con fecha futura ordenadas por fecha. La ruta se declara antes de `GET /publicaciones/:id`.
+- **Docs:** Doc 1 E-21 · Doc 2 §7.9.
+- **Validar:** con juntadas futuras, E-21 devuelve hasta 3 de la más cercana a la más lejana; una juntada pasada o dada de baja no aparece; `limit=0` → 400; sin token → 401.
+- **Depende de:** S2-03
+
 ---
 
 ## Front
@@ -64,6 +70,12 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** las últimas 3 publicaciones muestran hasta 3 comentarios reales.
 - **Depende de:** S3-03
 
+### [~] S3-11 · Front: próximas juntadas con datos reales
+- **Qué:** `ProximasJuntadasComponent` pide E-21 en lugar de usar datos fijos.
+- **Docs:** Doc 1 §6.4 · Doc 3 §5.2.
+- **Validar:** las juntadas del panel coinciden con las futuras cargadas; sin datos aparece el mensaje vacío.
+- **Depende de:** S3-10
+
 ---
 
 ## Cierre del sprint
@@ -71,4 +83,4 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 ### [ ] S3-09 · Deploy y verificación del sprint
 - **Qué:** publicar back y front y recorrer los criterios de aceptación (Doc 3 §5.6) sobre la URL pública.
 - **Validar:** todos los ítems de Doc 3 §5.6 tildados; búsqueda de `alert(` sin resultados.
-- **Depende de:** S3-05, S3-07, S3-08
+- **Depende de:** S3-05, S3-07, S3-08, S3-11

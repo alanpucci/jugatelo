@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Paginado } from '../../core/paginado.model';
-import { EstadoMeGusta, FiltrosPublicaciones, Publicacion } from './publicacion.model';
+import { EstadoMeGusta, FiltrosPublicaciones, JuntadaProxima, Publicacion } from './publicacion.model';
 
 @Injectable({ providedIn: 'root' })
 export class PublicacionesService {
@@ -20,6 +20,10 @@ export class PublicacionesService {
       }
     }
     return this.http.get<Paginado<Publicacion>>(`${environment.apiUrl}/publicaciones`, { params });
+  }
+
+  proximasJuntadas() {
+    return this.http.get<JuntadaProxima[]>(`${environment.apiUrl}/publicaciones/proximas-juntadas`);
   }
 
   obtener(id: string) {

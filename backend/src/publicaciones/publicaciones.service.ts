@@ -82,6 +82,19 @@ export class PublicacionesService {
     return { datos, total, offset: query.offset, limit: query.limit };
   }
 
+  proximasJuntadas(limit = 3) {
+    return this.publicacionModel
+      .find({
+        activa: true,
+        tipo: 'juntada',
+        fechaJuntada: { $gte: new Date() },
+      })
+      .sort({ fechaJuntada: 1, _id: 1 })
+      .limit(limit)
+      .select('titulo zona fechaJuntada cupo')
+      .lean();
+  }
+
   async obtenerPorId(id: string, usuario: UsuarioDocument) {
     const publicacion = await this.publicacionModel
       .findOne({ _id: id, activa: true })

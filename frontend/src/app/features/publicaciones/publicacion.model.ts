@@ -58,3 +58,11 @@ export interface EstadoMeGusta {
   cantidadMeGusta: number;
   meGustaDado: boolean;
 }
+
+export interface JuntadaProxima {
+  _id: string;
+  titulo: string;
+  zona: string;
+  fechaJuntada: string;
+  cupo: number | null;
+}

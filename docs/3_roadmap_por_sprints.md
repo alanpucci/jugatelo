@@ -203,6 +203,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] ComentarioItemComponent: «(editado)» si `modificado`; edición en línea solo para el autor (E-13).
 - [ ] Formulario de nuevo comentario (1–500) → E-12 e inserción al inicio de la lista.
 - [ ] Mi Perfil ya muestra comentarios reales.
+- [ ] El panel «Próximas juntadas» usa datos reales.
 - [ ] Para probar: variable de entorno que acorte los tiempos de sesión en desarrollo.
 
 ### 5.3 Checklist Back (NestJS)
@@ -213,6 +214,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] ComentariosController en PublicacionesModule: GET / POST / PUT según Doc 2, 7.6.
 - [ ] CrearComentarioDto / EditarComentarioDto (mensaje 1–500) y PaginacionQueryDto (offset, limit).
 - [ ] PUT: 403 si no es el autor; marca `modificado = true`.
+- [ ] `GET /publicaciones/proximas-juntadas` (panel lateral de Publicaciones).
 - [ ] Asegurar que JwtAuthGuard responde 401 ante token ausente, mal formado, firma inválida o vencido.
 
 ### 5.4 Endpoints nuevos
@@ -224,6 +226,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 | E-11 | GET | /publicaciones/:publicacionId/comentarios | JWT | 200 `{ datos, total, offset, limit }` |
 | E-12 | POST | /publicaciones/:publicacionId/comentarios | JWT | 201 comentario |
 | E-13 | PUT | /publicaciones/:publicacionId/comentarios/:comentarioId | JWT (autor del comentario) | 200 comentario con `modificado: true` |
+| E-21 | GET | /publicaciones/proximas-juntadas | JWT | 200 `[ { _id, titulo, zona, fechaJuntada, cupo } ]` |
 
 ### 5.5 Colecciones y campos nuevos
 - `comentarios`: empiezan a crearse documentos; campo `modificado`; índice `{ publicacion: 1, createdAt: -1 }`.

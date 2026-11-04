@@ -515,6 +515,20 @@ this.comentarioModel.aggregate([
 ```
 Supuesto: «comentarios en cada publicación en un lapso» = comentarios creados dentro del lapso, agrupados por publicación (pregunta al docente).
 
+### 7.9 Próximas juntadas del panel lateral (E-21)
+
+Solo cuenta juntadas activas con `fechaJuntada` en el futuro.
+
+```ts
+this.publicacionModel.find({ activa: true, tipo: 'juntada', fechaJuntada: { $gte: new Date() } })
+  .sort({ fechaJuntada: 1, _id: 1 })
+  .limit(limit)   // def. 3
+  .select('titulo zona fechaJuntada cupo')
+  .lean();
+```
+
+En Express `GET /publicaciones/proximas-juntadas` se declara antes que `GET /publicaciones/:id`.
+
 ### 7.8 Usuarios: listado, alta y bajas lógicas (E-14 a E-17)
 
 ```ts

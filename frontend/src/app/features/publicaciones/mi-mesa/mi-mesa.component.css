@@ -28,10 +28,6 @@ h3 {
   transform: rotate(-1deg);
 }
 
-.zonas {
-  transform: rotate(0.8deg);
-}
-
 .jugador {
   display: flex;
   align-items: center;
@@ -68,31 +64,4 @@ h3 {
 
 .mesa .boton {
   width: 100%;
-}
-
-.ficha-zona {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--espacio-2);
-  margin: 0 var(--espacio-2) var(--espacio-3) 0;
-  padding: 0.2rem 0.3rem 0.2rem 0.8rem;
-  border: var(--borde);
-  border-radius: 999px;
-  background: var(--naipe);
-  font-size: 0.85rem;
-  font-weight: 800;
-  box-shadow: var(--sombra-chica);
-}
-
-.ficha-zona b {
-  display: grid;
-  place-items: center;
-  min-width: 1.6rem;
-  height: 1.6rem;
-  border-radius: 50%;
-  background: var(--azul);
-  color: var(--naipe);
-  font-family: var(--fuente-titulo);
-  font-weight: 400;
-  font-size: 0.8rem;
 }

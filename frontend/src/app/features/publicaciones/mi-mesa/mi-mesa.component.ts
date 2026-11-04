@@ -11,12 +11,4 @@ import { ImagenRespaldoDirective } from '../../../shared/directivas/imagen-respa
 })
 export class MiMesaComponent {
   protected readonly authService = inject(AuthService);
-
-  protected readonly zonas = [
-    { nombre: 'Villa Crespo', cantidad: 5 },
-    { nombre: 'Palermo', cantidad: 4 },
-    { nombre: 'Caballito', cantidad: 3 },
-    { nombre: 'Belgrano', cantidad: 2 },
-    { nombre: 'San Telmo', cantidad: 2 },
-  ];
 }

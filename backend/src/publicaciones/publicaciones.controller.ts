@@ -19,6 +19,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { ParseObjectIdPipe } from '../comun/pipes/parse-object-id.pipe.js';
 import { crearPipeImagen } from '../comun/validadores/imagen.validator.js';
 import { CrearPublicacionDto } from './dto/crear-publicacion.dto.js';
+import { LimiteQueryDto } from './dto/limite-query.dto.js';
 import { ListarPublicacionesQueryDto } from './dto/listar-publicaciones-query.dto.js';
 import { PublicacionesService } from './publicaciones.service.js';
 
@@ -37,6 +38,11 @@ export class PublicacionesController {
   ) {
     const usuario = await this.authService.obtenerUsuarioDelToken(peticion);
     return this.publicacionesService.listar(query, usuario);
+  }
+
+  @Get('proximas-juntadas')
+  proximasJuntadas(@Query() query: LimiteQueryDto) {
+    return this.publicacionesService.proximasJuntadas(query.limit);
   }
 
   @Get(':id')

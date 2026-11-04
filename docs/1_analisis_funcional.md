@@ -322,6 +322,7 @@ Guard: **Público** = sin token · **JWT** = JwtAuthGuard (token válido y usuar
 | E-18 | GET /estadisticas/publicaciones-por-usuario | Admin | Query: desde, hasta (AAAA-MM-DD) | 200 `[ { usuarioId, nombreUsuario, cantidad } ]` | 400 fechas inválidas o desde > hasta · 401 · 403 | S4 |
 | E-19 | GET /estadisticas/comentarios | Admin | Query: desde, hasta | 200 `{ total, porDia: [ { fecha, cantidad } ] }` | 400 · 401 · 403 | S4 |
 | E-20 | GET /estadisticas/comentarios-por-publicacion | Admin | Query: desde, hasta | 200 `[ { publicacionId, titulo, cantidad } ]` | 400 · 401 · 403 | S4 |
+| E-21 | GET /publicaciones/proximas-juntadas | JWT | Query: limit (def. 3, máx. 10) | 200 `[ { _id, titulo, zona, fechaJuntada, cupo } ]` de juntadas activas con fecha futura, la más cercana primero | 400 query inválida · 401 | S3 |
 
 ### 7.1 Formato de respuestas
 

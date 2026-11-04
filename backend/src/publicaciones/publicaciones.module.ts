@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from '../auth/auth.module.js';
 import { CloudinaryModule } from '../cloudinary/cloudinary.module.js';
+import { ComentariosController } from './comentarios.controller.js';
+import { ComentariosService } from './comentarios.service.js';
 import { Comentario, ComentarioSchema } from './esquemas/comentario.schema.js';
 import {
   Publicacion,
@@ -19,7 +21,7 @@ import { PublicacionesService } from './publicaciones.service.js';
       { name: Comentario.name, schema: ComentarioSchema },
     ]),
   ],
-  controllers: [PublicacionesController],
-  providers: [PublicacionesService],
+  controllers: [PublicacionesController, ComentariosController],
+  providers: [PublicacionesService, ComentariosService],
 })
 export class PublicacionesModule {}

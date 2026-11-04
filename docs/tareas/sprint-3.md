@@ -22,7 +22,7 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** id válido → 200; id inexistente o dado de baja → 404; `/publicaciones/abc` → 400; sin token → 401.
 - **Depende de:** S2-03
 
-### [ ] S3-03 · Back: comentarios — GET, POST y PUT (E-11, E-12, E-13)
+### [~] S3-03 · Back: comentarios — GET, POST y PUT (E-11, E-12, E-13)
 - **Qué:** `ComentariosController` en `PublicacionesModule`; `CrearComentarioDto` / `EditarComentarioDto` (mensaje 1–500) y `PaginacionQueryDto` (offset 0, limit 5); listado de más reciente a más antiguo con autor populado; PUT solo para el autor y marca `modificado = true`.
 - **Docs:** Doc 1 CU-09, CU-10, E-11 a E-13, RN-06 · Doc 2 §7.6.
 - **Validar:** comentarios de a 5 del más reciente al más antiguo; mensaje vacío o de más de 500 → 400; editar uno ajeno → 403, el propio → 200 con `modificado: true`; publicación dada de baja → 404 en los tres.

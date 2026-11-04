@@ -1,0 +1,20 @@
+<aside class="lateral">
+  <div class="tarjeta">
+    <h3>Próximas juntadas</h3>
+    @for (juntada of juntadas; track juntada.titulo) {
+      <article class="juntada">
+        <div class="fecha">
+          <small>{{ juntada.dia }}</small>
+          <strong>{{ juntada.numero }}</strong>
+        </div>
+        <div class="datos">
+          <strong>{{ juntada.titulo }}</strong>
+          <small>{{ juntada.zona }} · {{ juntada.hora }}</small>
+          <small class="cupo">{{ juntada.cupo }} lugares</small>
+        </div>
+      </article>
+    } @empty {
+      <p>No hay juntadas armadas todavía.</p>
+    }
+  </div>
+</aside>

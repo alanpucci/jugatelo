@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.pagina {
+  max-width: 26rem;
+}
+
+.tarjeta {
+  padding: var(--espacio-6) var(--espacio-5) var(--espacio-5);
+  transform: rotate(-0.8deg);
+}
+
+.tarjeta::before {
+  content: '';
+  position: absolute;
+  top: 0.55rem;
+  left: 1.2rem;
+  right: 1.2rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--rojo) 0 25%, var(--oro) 25% 50%, var(--verde) 50% 75%, var(--azul) 75%);
+}
+
+button[type='submit'] {
+  width: 100%;
+}
+
+.pie {
+  margin: var(--espacio-5) 0 0;
+  text-align: center;
+  color: var(--tinta-suave);
+}

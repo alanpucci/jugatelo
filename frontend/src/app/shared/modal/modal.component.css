@@ -1,0 +1,60 @@
+.fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espacio-4);
+  background-color: rgba(23, 35, 59, 0.82);
+  background-image: var(--dorso);
+}
+
+.modal {
+  width: 100%;
+  max-width: 26rem;
+  padding: var(--espacio-6) var(--espacio-5) var(--espacio-5);
+  border-width: 6px;
+  border-color: var(--naipe);
+  outline: 2px solid var(--tinta);
+  box-shadow: 0 0 0 8px var(--azul-oscuro), 0 0 0 10px var(--tinta), 0 18px 30px rgba(0, 0, 0, 0.5);
+  animation: repartir 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.modal-error {
+  box-shadow: 0 0 0 8px var(--rojo-oscuro), 0 0 0 10px var(--tinta), 0 18px 30px rgba(0, 0, 0, 0.5);
+}
+
+.modal::after {
+  inset: 0;
+  border-radius: 0;
+  border: 0;
+}
+
+.modal h2 {
+  margin-bottom: var(--espacio-3);
+  color: var(--azul-oscuro);
+}
+
+.modal-error h2 {
+  color: var(--rojo);
+}
+
+.modal p {
+  margin: 0 0 var(--espacio-5);
+  color: var(--tinta-suave);
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--espacio-3);
+  padding-bottom: 6px;
+}
+
+@keyframes repartir {
+  from {
+    transform: translateY(-120%) rotate(-14deg);
+    opacity: 0;
+  }
+}

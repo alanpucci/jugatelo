@@ -1,0 +1,76 @@
+<form [formGroup]="formulario" (ngSubmit)="enviar()">
+  <div class="fila">
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" type="text" formControlName="nombre" />
+      <span class="error-campo">{{ mensajeError('nombre') }}</span>
+    </div>
+    <div class="campo">
+      <label for="apellido">Apellido</label>
+      <input id="apellido" type="text" formControlName="apellido" />
+      <span class="error-campo">{{ mensajeError('apellido') }}</span>
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="correo">Correo</label>
+    <input id="correo" type="email" formControlName="correo" />
+    <span class="error-campo">{{ mensajeError('correo') }}</span>
+  </div>
+
+  <div class="campo">
+    <label for="nombreUsuario">Nombre de usuario</label>
+    <input id="nombreUsuario" type="text" formControlName="nombreUsuario" />
+    <span class="error-campo">{{ mensajeError('nombreUsuario') }}</span>
+  </div>
+
+  <div class="fila">
+    <div class="campo">
+      <label for="contrasena">Contraseña</label>
+      <input id="contrasena" type="password" formControlName="contrasena" />
+      <span class="error-campo">{{ mensajeError('contrasena') }}</span>
+    </div>
+    <div class="campo">
+      <label for="repetirContrasena">Repetir contraseña</label>
+      <input id="repetirContrasena" type="password" formControlName="repetirContrasena" />
+      <span class="error-campo">{{ mensajeError('repetirContrasena') }}</span>
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="fechaNacimiento">Fecha de nacimiento</label>
+    <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento" />
+    <span class="error-campo">{{ mensajeError('fechaNacimiento') }}</span>
+  </div>
+
+  <div class="campo">
+    <label for="descripcion">Descripción (opcional)</label>
+    <textarea id="descripcion" formControlName="descripcion"></textarea>
+    <span class="ayuda-campo">{{ longitudDescripcion() }}/200</span>
+    <span class="error-campo">{{ mensajeError('descripcion') }}</span>
+  </div>
+
+  <div class="campo">
+    <label for="imagenPerfil">Imagen de perfil (opcional)</label>
+    <input id="imagenPerfil" type="file" accept="image/jpeg,image/png,image/webp" (change)="seleccionarImagen($event)" />
+    <span class="error-campo">{{ errorImagen() }}</span>
+    @if (vistaPrevia()) {
+      <img class="vista-previa" [src]="vistaPrevia()" alt="Vista previa" />
+    }
+  </div>
+
+  @if (esAdmin()) {
+    <div class="campo">
+      <span>Perfil</span>
+      <label class="opcion"><input type="radio" formControlName="perfil" value="usuario" /> usuario</label>
+      <label class="opcion"><input type="radio" formControlName="perfil" value="administrador" /> administrador</label>
+    </div>
+  }
+
+  <button type="submit" class="boton" [disabled]="formulario.invalid || cargando()">
+    @if (cargando()) {
+      <span class="giro"></span>
+    }
+    {{ textoBoton() }}
+  </button>
+</form>

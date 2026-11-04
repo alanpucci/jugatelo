@@ -1,0 +1,28 @@
+.fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--espacio-4);
+}
+
+.vista-previa {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: 50%;
+  border: var(--borde);
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  color: var(--color-texto);
+}
+
+.opcion input {
+  width: auto;
+}
+
+button[type='submit'] {
+  width: 100%;
+}

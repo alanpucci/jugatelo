@@ -1,0 +1,72 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--espacio-3);
+  padding: var(--espacio-3) var(--espacio-5);
+  background-color: var(--tinta);
+  background-image: var(--dorso);
+  border-bottom: 4px solid var(--oro);
+  box-shadow: 0 6px 12px rgba(40, 24, 8, 0.5);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  padding: 0.25rem 1rem 0.25rem 0.5rem;
+  background: var(--naipe);
+  border: 2px solid var(--oro);
+  border-radius: 0.5rem;
+  box-shadow: 0 3px 0 var(--oro-oscuro);
+  font-family: var(--fuente-titulo);
+  font-size: 1.35rem;
+  color: var(--rojo);
+  text-decoration: none;
+  transform: rotate(-3deg);
+  transition: transform 0.15s ease;
+}
+
+.logo img {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+.logo:hover {
+  color: var(--rojo);
+  transform: rotate(2deg) translateY(-2px);
+}
+
+.enlaces {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--espacio-3);
+}
+
+.enlaces a {
+  padding: 0.35rem 1.1rem;
+  border: 2px dashed rgba(253, 251, 244, 0.55);
+  border-radius: 999px;
+  color: var(--naipe);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.enlaces a:hover {
+  border-color: var(--oro);
+  color: var(--oro);
+}
+
+.enlaces a.activo {
+  background: var(--oro);
+  border: 2px solid var(--naipe);
+  color: var(--tinta);
+  box-shadow:
+    inset 0 0 0 2px var(--oro),
+    inset 0 0 0 3px var(--oro-oscuro);
+}

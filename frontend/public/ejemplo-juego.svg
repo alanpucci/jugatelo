@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+  <rect width="400" height="260" fill="#2a8fb8"/>
+  <g stroke="#17233b" stroke-width="4" stroke-linejoin="round">
+    <polygon points="120,40 160,17 200,40 200,86 160,109 120,86" fill="#7ac143"/>
+    <polygon points="200,40 240,17 280,40 280,86 240,109 200,86" fill="#f2b705"/>
+    <polygon points="80,109 120,86 160,109 160,155 120,178 80,155" fill="#c8102e"/>
+    <polygon points="160,109 200,86 240,109 240,155 200,178 160,155" fill="#e8d9a8"/>
+    <polygon points="240,109 280,86 320,109 320,155 280,178 240,155" fill="#8a8f98"/>
+    <polygon points="120,178 160,155 200,178 200,224 160,247 120,224" fill="#2f7d3a"/>
+    <polygon points="200,178 240,155 280,178 280,224 240,247 200,224" fill="#d97a1e"/>
+  </g>
+  <circle cx="200" cy="132" r="17" fill="#fdfbf4" stroke="#17233b" stroke-width="3"/>
+  <text x="200" y="138" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="18" fill="#17233b">8</text>
+  <circle cx="160" cy="63" r="15" fill="#fdfbf4" stroke="#17233b" stroke-width="3"/>
+  <text x="160" y="69" text-anchor="middle" font-family="Georgia,serif" font-weight="bold" font-size="16" fill="#c8102e">6</text>
+</svg>

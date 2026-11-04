@@ -1,0 +1,24 @@
+<section class="pagina">
+  <div class="tarjeta">
+    <h1>Ingresar</h1>
+    <form [formGroup]="formulario" (ngSubmit)="ingresar()">
+      <div class="campo">
+        <label for="correo">Correo</label>
+        <input id="correo" type="email" formControlName="correo" />
+        <span class="error-campo">{{ mensajeError('correo') }}</span>
+      </div>
+      <div class="campo">
+        <label for="contrasena">Contraseña</label>
+        <input id="contrasena" type="password" formControlName="contrasena" />
+        <span class="error-campo">{{ mensajeError('contrasena') }}</span>
+      </div>
+      <button type="submit" class="boton" [disabled]="formulario.invalid || cargando()">
+        @if (cargando()) {
+          <span class="giro"></span>
+        }
+        Ingresar
+      </button>
+    </form>
+    <p class="pie">¿No tenés cuenta? <a routerLink="/registro">Crear cuenta</a></p>
+  </div>
+</section>

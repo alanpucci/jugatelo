@@ -1,0 +1,38 @@
+<section class="pagina">
+  @if (authService.usuarioActual(); as usuario) {
+    <div class="tarjeta cabecera">
+      @if (usuario.imagenPerfilUrl) {
+        <img class="foto" [src]="usuario.imagenPerfilUrl" alt="Foto de perfil" />
+      } @else {
+        <span class="foto foto-vacia">{{ usuario.nombre[0] }}</span>
+      }
+      <div>
+        <h1>{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+        <p class="dato">&#64;{{ usuario.nombreUsuario }}</p>
+        <p class="dato">{{ usuario.correo }}</p>
+        <p class="dato">Nacimiento: {{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' }}</p>
+        <p class="dato">Perfil: {{ usuario.perfil }} · Alta: {{ usuario.createdAt | date: 'dd/MM/yyyy' }}</p>
+        @if (usuario.descripcion) {
+          <p>{{ usuario.descripcion }}</p>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="tarjeta">
+      <p>Iniciá sesión para ver tus datos. <a routerLink="/login">Ingresar</a></p>
+    </div>
+  }
+
+  <h2 class="subtitulo">Mis últimas publicaciones</h2>
+  @for (publicacion of publicacionesEjemplo; track publicacion.titulo) {
+    <article class="tarjeta publicacion">
+      <h3>{{ publicacion.titulo }}</h3>
+      <small>{{ publicacion.fecha }}</small>
+      @for (comentario of publicacion.comentarios; track comentario) {
+        <p class="comentario">{{ comentario }}</p>
+      } @empty {
+        <p class="comentario">Sin comentarios</p>
+      }
+    </article>
+  }
+</section>

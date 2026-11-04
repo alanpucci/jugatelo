@@ -1,0 +1,7 @@
+<section class="pagina">
+  <div class="tarjeta">
+    <h1>Crear cuenta</h1>
+    <app-formulario-usuario [cargando]="cargando()" (enviado)="registrar($event)" />
+    <p class="pie">¿Ya tenés cuenta? <a routerLink="/login">Ya tengo cuenta</a></p>
+  </div>
+</section>

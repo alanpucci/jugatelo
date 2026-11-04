@@ -1,0 +1,32 @@
+<aside class="lateral">
+  <div class="tarjeta mesa">
+    <h3>Mi mesa</h3>
+    @if (authService.usuarioActual(); as usuario) {
+      <div class="jugador">
+        @if (usuario.imagenPerfilUrl) {
+          <img class="foto" [src]="usuario.imagenPerfilUrl" alt="Foto de perfil" />
+        } @else {
+          <span class="foto foto-vacia">{{ usuario.nombre[0] }}</span>
+        }
+        <div>
+          <strong>{{ usuario.nombre }} {{ usuario.apellido }}</strong>
+          <small>&#64;{{ usuario.nombreUsuario }}</small>
+        </div>
+      </div>
+      <a class="boton boton-secundario" routerLink="/mi-perfil">Ver mi perfil</a>
+    } @else {
+      <p>Ingresá para armar tu mesa.</p>
+      <a class="boton" routerLink="/login">Ingresar</a>
+    }
+  </div>
+
+  <div class="tarjeta zonas">
+    <h3>Zonas con movimiento</h3>
+    @for (zona of zonas; track zona.nombre) {
+      <span class="ficha-zona">
+        {{ zona.nombre }}
+        <b>{{ zona.cantidad }}</b>
+      </span>
+    }
+  </div>
+</aside>

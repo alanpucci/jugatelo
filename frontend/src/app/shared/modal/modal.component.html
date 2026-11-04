@@ -1,0 +1,16 @@
+@if (modalService.estado(); as modal) {
+  <div class="fondo" (click)="modalService.cerrar(false)">
+    <div class="modal tarjeta" [class.modal-error]="modal.tipo === 'error'" (click)="$event.stopPropagation()">
+      <h2>{{ modal.titulo }}</h2>
+      <p>{{ modal.mensaje }}</p>
+      <div class="acciones">
+        @if (modal.tipo === 'confirmacion') {
+          <button type="button" class="boton boton-secundario" (click)="modalService.cerrar(false)">Cancelar</button>
+          <button type="button" class="boton" (click)="modalService.cerrar(true)">Confirmar</button>
+        } @else {
+          <button type="button" class="boton" (click)="modalService.cerrar(true)">Aceptar</button>
+        }
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,98 @@
+:host {
+  position: sticky;
+  top: 6rem;
+  align-self: start;
+  display: block;
+  max-height: calc(100dvh - 7rem);
+  overflow-y: auto;
+  padding: 0.5rem 0.5rem 1rem;
+  margin: -0.5rem;
+}
+
+.lateral {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+}
+
+.lateral .tarjeta {
+  padding: var(--espacio-4);
+}
+
+h3 {
+  margin-bottom: var(--espacio-3);
+  color: var(--rojo);
+}
+
+.mesa {
+  transform: rotate(-1deg);
+}
+
+.zonas {
+  transform: rotate(0.8deg);
+}
+
+.jugador {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  margin-bottom: var(--espacio-4);
+}
+
+.jugador small {
+  display: block;
+  color: var(--tinta-suave);
+}
+
+.foto {
+  flex: none;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: var(--borde);
+  box-shadow:
+    0 0 0 3px var(--oro),
+    0 0 0 5px var(--tinta);
+}
+
+.foto-vacia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tinta);
+  color: var(--oro);
+  font-family: var(--fuente-titulo);
+  font-size: 1.4rem;
+}
+
+.mesa .boton {
+  width: 100%;
+}
+
+.ficha-zona {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  margin: 0 var(--espacio-2) var(--espacio-3) 0;
+  padding: 0.2rem 0.3rem 0.2rem 0.8rem;
+  border: var(--borde);
+  border-radius: 999px;
+  background: var(--naipe);
+  font-size: 0.85rem;
+  font-weight: 800;
+  box-shadow: var(--sombra-chica);
+}
+
+.ficha-zona b {
+  display: grid;
+  place-items: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--azul);
+  color: var(--naipe);
+  font-family: var(--fuente-titulo);
+  font-weight: 400;
+  font-size: 0.8rem;
+}

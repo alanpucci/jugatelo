@@ -3,9 +3,10 @@
     <h3>Próximas juntadas</h3>
     @for (juntada of juntadas(); track juntada._id) {
       <article class="juntada">
+        @let fecha = juntada.fechaJuntada | diaMes;
         <div class="fecha">
-          <small>{{ dia(juntada) }}</small>
-          <strong>{{ numero(juntada) }}</strong>
+          <small>{{ fecha.mes }}</small>
+          <strong>{{ fecha.dia }}</strong>
         </div>
         <div class="datos">
           <strong>{{ juntada.titulo }}</strong>

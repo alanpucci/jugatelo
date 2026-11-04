@@ -1,11 +1,13 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
+import type { Request } from 'express';
 import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
 import { UsuarioDocument } from '../usuarios/esquemas/usuario.schema.js';
 import {
@@ -79,6 +81,31 @@ export class AuthService {
     }
 
     return this.armarRespuesta(usuario);
+  }
+
+  async obtenerUsuarioDelToken(peticion: Request) {
+    const [tipo, token] = peticion.headers.authorization?.split(' ') ?? [];
+
+    if (tipo !== 'Bearer' || !token) {
+      throw new UnauthorizedException('Sesión no válida');
+    }
+
+    let payload: JwtPayload;
+    try {
+      payload = await this.jwtService.verifyAsync<JwtPayload>(token);
+    } catch {
+      throw new UnauthorizedException('Sesión no válida');
+    }
+
+    const usuario = await this.usuariosService.buscarPorId(payload.id);
+    if (!usuario) {
+      throw new UnauthorizedException('Sesión no válida');
+    }
+    if (!usuario.habilitado) {
+      throw new ForbiddenException('Tu usuario está deshabilitado');
+    }
+
+    return usuario;
   }
 
   private async armarRespuesta(usuario: UsuarioDocument) {

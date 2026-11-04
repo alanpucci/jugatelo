@@ -1,0 +1,5 @@
+<div class="paginador">
+  <button type="button" class="boton boton-secundario" [disabled]="paginaActual() <= 1" (click)="anterior()">Anterior</button>
+  <span>Página {{ paginaActual() }} de {{ totalPaginas() }}</span>
+  <button type="button" class="boton boton-secundario" [disabled]="paginaActual() >= totalPaginas()" (click)="siguiente()">Siguiente</button>
+</div>

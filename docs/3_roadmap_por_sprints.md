@@ -40,7 +40,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 | Tarea | Exigido en | Hacerlo en | Por qué |
 |---|---|---|---|
 | Generar el JWT en login y registro (payload `{ id, correo, nombreUsuario, perfil }`, 15 min) | S3 | **S1** | En S2 el back necesita saber quién crea, borra o da me gusta; sin token habría que mandar el id en el body y reescribir todo. |
-| JwtAuthGuard + decorador `@UsuarioActual()` en Nest | S3 | S2 | Lo usan E-05, E-08, E-09 y E-10 para tomar el usuario del token. |
+| JwtAuthGuard + `AuthService.obtenerUsuarioDelToken` en Nest | S3 | S2 | Lo usan E-05, E-08, E-09 y E-10 para tomar el usuario del token. |
 | authInterceptor (agrega `Authorization: Bearer`) | S3 | S2 | Todas las llamadas de S2 ya van con token. |
 | TokenService (localStorage) y AuthService con usuario actual | S3 | **S1** | Mi Perfil (S2) muestra datos del usuario logueado. |
 | Campo `usuarios.habilitado` (default true) | S4 | **S1** | Evita migrar documentos; el guard ya puede chequearlo. |
@@ -143,7 +143,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 ### 4.3 Checklist Back (NestJS)
 - [ ] Esquema Publicacion con índices (Doc 2 cap. 5).
 - [ ] Esquema Comentario (S-09) registrado en PublicacionesModule.
-- [ ] JwtAuthGuard (verifica token, carga el usuario, chequea habilitado) y decorador `@UsuarioActual()` — *adelantado*.
+- [ ] JwtAuthGuard (verifica token, carga el usuario, chequea habilitado) y `AuthService.obtenerUsuarioDelToken(peticion)` para obtener el usuario en los controllers — *adelantado*.
 - [ ] ParseObjectIdPipe para `:id` (400 si es inválido).
 - [ ] CrearPublicacionDto (tipo + campos condicionales con `@ValidateIf` según RN-14: zona y fechaJuntada obligatorias solo en `juntada`; jugadoresMin/Max solo en `juego`) y ListarPublicacionesQueryDto (orden, tipo, zona, usuarioId, offset, limit, comentarios; `@Type(() => Number)`, `@Min`, `@Max`).
 - [ ] `POST /publicaciones`: `FileInterceptor('imagen')`, subir a `jugatelo/publicaciones`, usuario = id del token → 201.

@@ -31,6 +31,10 @@ export class UsuariosService {
       .select('+contrasena');
   }
 
+  buscarPorId(id: string) {
+    return this.usuarioModel.findById(id);
+  }
+
   buscarPorNombreUsuario(nombreUsuario: string) {
     return this.usuarioModel
       .findOne({ nombreUsuario })

@@ -14,6 +14,7 @@ export class AuthService {
   private readonly tokenService = inject(TokenService);
 
   readonly usuarioActual = signal<Usuario | null>(null);
+  readonly haySesion = signal(!!this.tokenService.leer());
 
   registrar(formData: FormData) {
     return this.http
@@ -30,11 +31,13 @@ export class AuthService {
   cerrarSesion() {
     this.tokenService.borrar();
     this.usuarioActual.set(null);
+    this.haySesion.set(false);
     this.router.navigate(['/login']);
   }
 
   private iniciarSesion(respuesta: RespuestaAuth) {
     this.tokenService.guardar(respuesta.token);
     this.usuarioActual.set(respuesta.usuario);
+    this.haySesion.set(true);
   }
 }

@@ -24,15 +24,19 @@
   }
 
   <h2 class="subtitulo">Mis últimas publicaciones</h2>
-  @for (publicacion of publicacionesEjemplo; track publicacion.titulo) {
-    <article class="tarjeta publicacion">
+  @for (publicacion of publicaciones(); track publicacion._id) {
+    <article class="tarjeta publicacion" [class.publicacion-juntada]="publicacion.tipo === 'juntada'">
       <h3>{{ publicacion.titulo }}</h3>
-      <small>{{ publicacion.fecha }}</small>
-      @for (comentario of publicacion.comentarios; track comentario) {
-        <p class="comentario">{{ comentario }}</p>
+      <small>{{ publicacion.tipo === 'juego' ? 'Juego' : 'Juntada' }} · {{ publicacion.createdAt | tiempoRelativo }}</small>
+      @for (comentario of publicacion.comentarios ?? []; track comentario._id) {
+        <p class="comentario"><strong>{{ comentario.usuario.nombreUsuario }}:</strong> {{ comentario.mensaje }}</p>
       } @empty {
         <p class="comentario">Sin comentarios</p>
       }
     </article>
+  } @empty {
+    @if (!cargando()) {
+      <p class="vacio">Todavía no publicaste nada.</p>
+    }
   }
 </section>

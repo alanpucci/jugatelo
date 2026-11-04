@@ -279,25 +279,6 @@ footer .enlace {
   text-underline-offset: 3px;
 }
 
-.paginador {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--espacio-4);
-  margin-top: var(--espacio-5);
-}
-
-.paginador span {
-  display: grid;
-  place-items: center;
-  min-width: 8rem;
-  padding: 0.35rem 1rem;
-  background: var(--naipe);
-  border: var(--borde);
-  border-radius: 0.4rem;
-  font-family: var(--fuente-titulo);
-  box-shadow: var(--sombra-chica);
-}
 
 @media (max-width: 36rem) {
   .marco {
@@ -408,4 +389,13 @@ footer .enlace {
   40% {
     transform: scale(1.25) rotate(6deg);
   }
+}
+
+.vacio {
+  padding: var(--espacio-5);
+  text-align: center;
+  background: var(--naipe);
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-chica);
 }

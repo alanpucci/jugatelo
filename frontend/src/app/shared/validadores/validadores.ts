@@ -24,3 +24,19 @@ export const fechaAnteriorAHoy: ValidatorFn = (control: AbstractControl): Valida
   const hoy = new Date().toISOString().slice(0, 10);
   return control.value < hoy ? null : { fechaFutura: true };
 };
+
+export const fechaPosteriorAAhora: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  if (!control.value) {
+    return null;
+  }
+  return new Date(control.value).getTime() > Date.now() ? null : { fechaPasada: true };
+};
+
+export const jugadoresCoherentes: ValidatorFn = (grupo: AbstractControl): ValidationErrors | null => {
+  const minimo = grupo.get('jugadoresMin')?.value;
+  const maximo = grupo.get('jugadoresMax')?.value;
+  if (minimo == null || maximo == null || minimo === '' || maximo === '') {
+    return null;
+  }
+  return Number(minimo) <= Number(maximo) ? null : { jugadoresIncoherentes: true };
+};

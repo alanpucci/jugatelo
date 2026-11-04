@@ -319,7 +319,7 @@ ComentarioSchema.index({ createdAt: 1 });
 
 ## 7. Consultas y aggregations principales
 
-`yo` es el ObjectId del usuario del token (decorador `@UsuarioActual()`). Los parámetros llegan validados por los DTOs.
+`yo` es el ObjectId del usuario del token (`AuthService.obtenerUsuarioDelToken(peticion)`). Los parámetros llegan validados por los DTOs.
 
 ### 7.1 Listado paginado con orden (E-06) — `PublicacionesService.listar()`
 

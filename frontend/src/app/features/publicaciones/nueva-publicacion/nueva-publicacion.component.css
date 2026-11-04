@@ -1,0 +1,48 @@
+.fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espacio-4);
+  background: rgba(23, 35, 59, 0.7);
+  overflow-y: auto;
+}
+
+.panel {
+  width: 100%;
+  max-width: 34rem;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.panel h2 {
+  margin-bottom: var(--espacio-4);
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--espacio-4);
+}
+
+.campo select {
+  width: 100%;
+  border-radius: 0.5rem;
+}
+
+.vista-previa {
+  max-width: 100%;
+  max-height: 14rem;
+  object-fit: cover;
+  border-radius: var(--radio);
+  border: var(--borde);
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--espacio-3);
+  margin-top: var(--espacio-4);
+}

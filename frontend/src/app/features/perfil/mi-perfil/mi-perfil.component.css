@@ -69,3 +69,16 @@
   border-radius: 0 0.5rem 0.5rem 0;
   color: var(--tinta);
 }
+
+.publicacion-juntada {
+  border-left-color: var(--rojo);
+}
+
+.vacio {
+  padding: var(--espacio-5);
+  text-align: center;
+  background: var(--naipe);
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra-chica);
+}

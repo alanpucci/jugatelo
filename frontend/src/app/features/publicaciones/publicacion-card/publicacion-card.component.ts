@@ -32,6 +32,23 @@ export class PublicacionCardComponent implements OnInit {
   protected readonly meGustaDado = signal(false);
   protected readonly comentarios = signal<ComentarioPublicacion[] | undefined>(undefined);
 
+  protected readonly descripcionExpandida = signal(false);
+  protected readonly comentariosExpandidos = signal<ReadonlySet<string>>(new Set());
+
+  protected excede(texto: string, maximo: number) {
+    return texto.length > maximo;
+  }
+
+  protected alternarComentario(id: string) {
+    this.comentariosExpandidos.update((ids) => {
+      const siguiente = new Set(ids);
+      if (!siguiente.delete(id)) {
+        siguiente.add(id);
+      }
+      return siguiente;
+    });
+  }
+
   ngOnInit() {
     const publicacion = this.publicacion();
     if (!publicacion) {

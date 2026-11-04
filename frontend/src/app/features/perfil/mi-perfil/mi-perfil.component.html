@@ -26,11 +26,15 @@
   <h2 class="subtitulo">Mis últimas publicaciones</h2>
   @for (publicacion of publicaciones(); track publicacion._id) {
     <div class="publicacion">
-      <app-publicacion-card [publicacion]="publicacion" (eliminada)="cargar()" />
+      <app-publicacion-card [publicacion]="publicacion" (eliminada)="eliminada()" />
     </div>
   } @empty {
     @if (!cargando()) {
       <p class="vacio">Todavía no publicaste nada.</p>
     }
+  }
+
+  @if (total() > 0) {
+    <app-paginador [total]="total()" [offset]="offset()" [limit]="porPagina" (cambiado)="cargar($event)" />
   }
 </section>

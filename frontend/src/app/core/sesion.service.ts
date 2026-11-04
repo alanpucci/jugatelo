@@ -67,8 +67,10 @@ export class SesionService {
 
   private async avisar() {
     this.avisoMostrado = true;
+    const minutos = environment.avisoAntesDeVencerMs / 60000;
+    const textoMinutos = `${minutos.toLocaleString('es-AR', { maximumFractionDigits: 2 })} ${minutos === 1 ? 'minuto' : 'minutos'}`;
     const extender = await this.modalService.confirmar(
-      'Tu sesión vence en 5 minutos. ¿Querés extenderla?',
+      `Tu sesión vence en ${textoMinutos}. ¿Querés extenderla?`,
       'Sesión por vencer',
       'Extender',
       'No',

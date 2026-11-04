@@ -46,7 +46,7 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** a los 10 min del login aparece el modal; «Extender» entrega un token nuevo y reprograma; «No» cierra la sesión al vencer.
 - **Depende de:** S3-04
 
-### [ ] S3-06 · Front: pantalla Publicación
+### [~] S3-06 · Front: pantalla Publicación
 - **Qué:** ruta `/publicaciones/:id` con `PublicacionComponent` (E-07) reutilizando la carta; la carta del listado enlaza al detalle; 404 se informa por `ModalService`.
 - **Docs:** Doc 1 CU-09, §6.5 · Doc 3 §5.2.
 - **Validar:** desde el listado se abre el detalle; una publicación dada de baja muestra el aviso y vuelve al listado.

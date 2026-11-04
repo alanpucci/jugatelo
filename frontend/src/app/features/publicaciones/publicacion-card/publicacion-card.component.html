@@ -20,7 +20,7 @@
         <span>{{ detalle() }}</span>
       </div>
 
-      <p class="texto">{{ publicacion.descripcion | truncar: 180 }}</p>
+      <p class="texto">{{ detalleCompleto() ? publicacion.descripcion : (publicacion.descripcion | truncar: 180) }}</p>
 
       <footer>
         <div class="autor">
@@ -47,7 +47,9 @@
           <span class="corazon-numero">{{ cantidadMeGusta() }}</span>
           <span class="corazon-texto">{{ meGustaDado() ? 'Te gusta' : 'Me gusta' }}</span>
         </button>
-        <span class="enlace">Ver comentarios</span>
+        @if (!detalleCompleto()) {
+          <a class="enlace" [routerLink]="['/publicaciones', publicacion._id]">Ver comentarios</a>
+        }
         @if (puedeEliminar()) {
           <button type="button" class="eliminar" (click)="eliminar()">Eliminar</button>
         }

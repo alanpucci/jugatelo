@@ -1,0 +1,8 @@
+<section class="detalle">
+  <a class="volver" routerLink="/publicaciones">← Volver</a>
+  @if (publicacion(); as publicacion) {
+    <app-publicacion-card [publicacion]="publicacion" [detalleCompleto]="true" (eliminada)="volver()" />
+  } @else {
+    <app-spinner />
+  }
+</section>

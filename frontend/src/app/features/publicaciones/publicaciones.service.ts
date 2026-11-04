@@ -22,6 +22,10 @@ export class PublicacionesService {
     return this.http.get<Paginado<Publicacion>>(`${environment.apiUrl}/publicaciones`, { params });
   }
 
+  obtener(id: string) {
+    return this.http.get<Publicacion>(`${environment.apiUrl}/publicaciones/${id}`);
+  }
+
   eliminar(id: string) {
     return this.http.delete<{ mensaje: string }>(`${environment.apiUrl}/publicaciones/${id}`);
   }

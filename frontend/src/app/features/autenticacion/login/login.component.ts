@@ -51,7 +51,7 @@ export class LoginComponent {
     try {
       await this.authService.login(this.formulario.value as { correo: string; contrasena: string });
       this.cargando.set(false);
-      this.router.navigate(['/publicaciones']);
+      this.router.navigate(['/cargando']);
     } catch (error) {
       this.cargando.set(false);
       this.modalService.mostrarError(this.mensajeDe(error as HttpErrorResponse));

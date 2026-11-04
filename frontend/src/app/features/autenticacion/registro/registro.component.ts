@@ -32,7 +32,7 @@ export class RegistroComponent {
     try {
       await this.authService.registrar(formData);
       this.cargando.set(false);
-      this.router.navigate(['/publicaciones']);
+      this.router.navigate(['/cargando']);
       this.modalService.mostrarInfo('Tu cuenta fue creada. ¡Bienvenido a Jugátelo!', 'Bienvenido');
     } catch (error) {
       this.cargando.set(false);

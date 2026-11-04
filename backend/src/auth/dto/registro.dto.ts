@@ -19,47 +19,54 @@ function finDeAyer() {
 }
 
 export class RegistroDto {
-  @IsString()
-  @Length(2, 50)
-  @Matches(/^[\p{L} ]+$/u, { message: 'nombre solo admite letras y espacios' })
+  @IsString({ message: 'El nombre es obligatorio' })
+  @Length(2, 50, { message: 'El nombre debe tener entre 2 y 50 caracteres' })
+  @Matches(/^[\p{L} ]+$/u, {
+    message: 'El nombre solo admite letras y espacios',
+  })
   nombre: string;
 
-  @IsString()
-  @Length(2, 50)
+  @IsString({ message: 'El apellido es obligatorio' })
+  @Length(2, 50, { message: 'El apellido debe tener entre 2 y 50 caracteres' })
   @Matches(/^[\p{L} ]+$/u, {
-    message: 'apellido solo admite letras y espacios',
+    message: 'El apellido solo admite letras y espacios',
   })
   apellido: string;
 
-  @IsEmail()
+  @IsEmail({}, { message: 'El correo no tiene un formato válido' })
   correo: string;
 
-  @IsString()
-  @Length(3, 20)
+  @IsString({ message: 'El nombre de usuario es obligatorio' })
+  @Length(3, 20, {
+    message: 'El nombre de usuario debe tener entre 3 y 20 caracteres',
+  })
   @Matches(/^[a-zA-Z0-9._]+$/, {
-    message: 'nombreUsuario solo admite letras, números, punto y guion bajo',
+    message:
+      'El nombre de usuario solo admite letras, números, punto y guion bajo',
   })
   nombreUsuario: string;
 
-  @IsString()
+  @IsString({ message: 'La contraseña es obligatoria' })
   @Matches(REGEX_CONTRASENA, {
     message:
       'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número',
   })
   contrasena: string;
 
-  @IsString()
+  @IsString({ message: 'Tenés que repetir la contraseña' })
   repetirContrasena: string;
 
   @Type(() => Date)
-  @IsDate()
+  @IsDate({ message: 'La fecha de nacimiento no es válida' })
   @MaxDate(finDeAyer, {
-    message: 'fechaNacimiento debe ser anterior a hoy',
+    message: 'La fecha de nacimiento debe ser anterior a hoy',
   })
   fechaNacimiento: Date;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(200)
+  @IsString({ message: 'La descripción debe ser un texto' })
+  @MaxLength(200, {
+    message: 'La descripción no puede superar los 200 caracteres',
+  })
   descripcion?: string;
 }

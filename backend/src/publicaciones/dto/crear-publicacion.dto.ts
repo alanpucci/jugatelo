@@ -16,46 +16,48 @@ import {
 } from '../esquemas/publicacion.schema.js';
 
 export class CrearPublicacionDto {
-  @IsIn(TIPOS_PUBLICACION)
+  @IsIn(TIPOS_PUBLICACION, { message: 'El tipo debe ser juego o juntada' })
   tipo: TipoPublicacion;
 
-  @IsString()
-  @Length(3, 100)
+  @IsString({ message: 'El título es obligatorio' })
+  @Length(3, 100, { message: 'El título debe tener entre 3 y 100 caracteres' })
   titulo: string;
 
-  @IsString()
-  @Length(1, 1000)
+  @IsString({ message: 'La descripción es obligatoria' })
+  @Length(1, 1000, {
+    message: 'La descripción debe tener entre 1 y 1000 caracteres',
+  })
   descripcion: string;
 
   @IsOptional()
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  @Max(20)
+  @IsInt({ message: 'Los jugadores mínimos deben ser un número entero' })
+  @Min(1, { message: 'Los jugadores mínimos deben ser al menos 1' })
+  @Max(20, { message: 'Los jugadores mínimos no pueden ser más de 20' })
   jugadoresMin?: number;
 
   @IsOptional()
   @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  @Max(20)
+  @IsInt({ message: 'Los jugadores máximos deben ser un número entero' })
+  @Min(1, { message: 'Los jugadores máximos deben ser al menos 1' })
+  @Max(20, { message: 'Los jugadores máximos no pueden ser más de 20' })
   jugadoresMax?: number;
 
   @IsOptional()
-  @IsString()
-  @Length(2, 80)
+  @IsString({ message: 'La zona debe ser un texto' })
+  @Length(2, 80, { message: 'La zona debe tener entre 2 y 80 caracteres' })
   zona?: string;
 
   @IsOptional()
   @Type(() => Date)
-  @IsDate()
+  @IsDate({ message: 'La fecha de la juntada no es válida' })
   fechaJuntada?: Date;
 
   @IsOptional()
   @Type(() => Number)
-  @IsInt()
-  @Min(2)
-  @Max(50)
+  @IsInt({ message: 'El cupo debe ser un número entero' })
+  @Min(2, { message: 'El cupo debe ser al menos 2' })
+  @Max(50, { message: 'El cupo no puede ser mayor a 50' })
   cupo?: number;
 }
 

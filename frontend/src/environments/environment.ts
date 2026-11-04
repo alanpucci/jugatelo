@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'https://elconfesionario-backend.vercel.app',
+  apiUrl: 'http://localhost:3000',
 };

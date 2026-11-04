@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Paginado } from '../../core/paginado.model';
 import { EstadoMeGusta, FiltrosPublicaciones, JuntadaProxima, Publicacion } from './publicacion.model';
@@ -7,6 +8,32 @@ import { EstadoMeGusta, FiltrosPublicaciones, JuntadaProxima, Publicacion } from
 @Injectable({ providedIn: 'root' })
 export class PublicacionesService {
   private readonly http = inject(HttpClient);
+
+  private precarga: { pagina?: Paginado<Publicacion>; juntadas?: JuntadaProxima[] } | undefined;
+
+  async precargar(filtros: Partial<FiltrosPublicaciones>) {
+    const [pagina, juntadas] = await Promise.all([
+      firstValueFrom(this.listar(filtros)).catch(() => undefined),
+      firstValueFrom(this.proximasJuntadas()).catch(() => undefined),
+    ]);
+    this.precarga = { pagina, juntadas };
+  }
+
+  tomarPaginaPrecargada() {
+    const pagina = this.precarga?.pagina;
+    if (this.precarga) {
+      this.precarga.pagina = undefined;
+    }
+    return pagina;
+  }
+
+  tomarJuntadasPrecargadas() {
+    const juntadas = this.precarga?.juntadas;
+    if (this.precarga) {
+      this.precarga.juntadas = undefined;
+    }
+    return juntadas;
+  }
 
   crear(formData: FormData) {
     return this.http.post<Publicacion>(`${environment.apiUrl}/publicaciones`, formData);

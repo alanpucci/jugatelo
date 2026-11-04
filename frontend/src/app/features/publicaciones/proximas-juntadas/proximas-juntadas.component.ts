@@ -14,6 +14,11 @@ export class ProximasJuntadasComponent implements OnInit {
   protected readonly juntadas = signal<JuntadaProxima[]>([]);
 
   async ngOnInit() {
+    const precargadas = this.publicacionesService.tomarJuntadasPrecargadas();
+    if (precargadas) {
+      this.juntadas.set(precargadas);
+      return;
+    }
     try {
       this.juntadas.set(await firstValueFrom(this.publicacionesService.proximasJuntadas()));
     } catch {

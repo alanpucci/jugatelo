@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
 import { TokenService } from '../../../core/token.service';
+import { PublicacionesService } from '../../publicaciones/publicaciones.service';
 import { SpinnerComponent } from '../../../shared/spinner/spinner.component';
 
 @Component({
@@ -16,6 +17,7 @@ export class CargandoComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly tokenService = inject(TokenService);
   private readonly modalService = inject(ModalService);
+  private readonly publicacionesService = inject(PublicacionesService);
   private readonly router = inject(Router);
   private readonly ruta = inject(ActivatedRoute);
 
@@ -34,8 +36,18 @@ export class CargandoComponent implements OnInit {
     this.sinConexion.set(false);
     try {
       await this.authService.autorizar();
-      await new Promise((resolver) => setTimeout(resolver, 3000));
-      this.router.navigateByUrl(this.destino());
+      const destino = this.destino();
+      const espera = new Promise((resolver) => setTimeout(resolver, 3000));
+      if (destino === '/publicaciones') {
+        // Los datos se piden mientras dura la espera, así la pantalla aparece ya completa.
+        await Promise.all([
+          espera,
+          this.publicacionesService.precargar({ orden: 'fecha', offset: 0, limit: 10, comentarios: 3 }),
+        ]);
+      } else {
+        await espera;
+      }
+      this.router.navigateByUrl(destino);
     } catch (error) {
       const estado = (error as HttpErrorResponse).status;
       if (estado === 403) {

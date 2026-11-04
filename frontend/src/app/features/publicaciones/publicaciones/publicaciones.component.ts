@@ -38,6 +38,13 @@ export class PublicacionesComponent implements OnInit {
   protected readonly zona = signal('');
 
   ngOnInit() {
+    const pagina = this.publicacionesService.tomarPaginaPrecargada();
+    if (pagina) {
+      this.publicaciones.set(pagina.datos);
+      this.total.set(pagina.total);
+      this.offset.set(pagina.offset);
+      return;
+    }
     this.cargar(0);
   }
 

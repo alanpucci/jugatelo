@@ -20,7 +20,27 @@
         <span>{{ detalle() }}</span>
       </div>
 
-      <p class="texto">{{ detalleCompleto() ? publicacion.descripcion : (publicacion.descripcion | truncar: 180) }}</p>
+      <div class="cuerpo">
+        <p class="texto">{{ detalleCompleto() ? publicacion.descripcion : (publicacion.descripcion | truncar: 180) }}</p>
+        @if (!detalleCompleto() && comentarios()) {
+          <section class="anotador">
+            <h3>Comentarios</h3>
+            @for (comentario of comentarios(); track comentario._id) {
+              <p class="nota">
+                <strong>{{ comentario.usuario.nombreUsuario }}:</strong> {{ comentario.mensaje | truncar: 100 }}
+                <small>
+                  {{ comentario.createdAt | tiempoRelativo }}
+                  @if (comentario.modificado) {
+                    · editado
+                  }
+                </small>
+              </p>
+            } @empty {
+              <p class="nota sin-comentarios">Sin comentarios</p>
+            }
+          </section>
+        }
+      </div>
 
       <footer>
         <div class="autor">
@@ -48,7 +68,7 @@
           <span class="corazon-texto">{{ meGustaDado() ? 'Te gusta' : 'Me gusta' }}</span>
         </button>
         @if (!detalleCompleto()) {
-          <a class="enlace" [routerLink]="['/publicaciones', publicacion._id]">Ver comentarios</a>
+          <button type="button" class="enlace" (click)="verComentarios()">Ver comentarios</button>
         }
         @if (puedeEliminar()) {
           <button type="button" class="eliminar" (click)="eliminar()">Eliminar</button>

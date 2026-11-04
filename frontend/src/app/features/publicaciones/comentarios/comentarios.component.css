@@ -1,0 +1,72 @@
+.anotador {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: var(--espacio-3);
+  padding: var(--espacio-5) var(--espacio-5) var(--espacio-4);
+  background:
+    linear-gradient(90deg, transparent 3.2rem, rgba(200, 16, 46, 0.45) 3.2rem calc(3.2rem + 2px), transparent calc(3.2rem + 2px)),
+    repeating-linear-gradient(0deg, transparent 0 1.7rem, rgba(37, 99, 184, 0.22) 1.7rem calc(1.7rem + 1px)),
+    #fff8d6;
+  border: var(--borde);
+  border-top: 14px solid var(--rojo);
+  border-radius: 0.4rem;
+  color: var(--tinta);
+  box-shadow: 3px 5px 0 rgba(23, 35, 59, 0.3);
+}
+
+.anotador::before {
+  content: '';
+  position: absolute;
+  top: -1.3rem;
+  left: 50%;
+  width: 9rem;
+  height: 0.9rem;
+  transform: translateX(-50%);
+  border-radius: 0.5rem;
+  background: repeating-linear-gradient(90deg, var(--tinta) 0 0.7rem, transparent 0.7rem 1.4rem);
+}
+
+h2 {
+  margin: 0 0 var(--espacio-3);
+  padding-left: 2.6rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rojo-oscuro);
+}
+
+form {
+  margin-bottom: var(--espacio-4);
+  padding-left: 2.6rem;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.pie-formulario {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--espacio-2);
+}
+
+.vacio {
+  margin: 0;
+  padding-left: 2.6rem;
+  font-style: italic;
+  color: var(--tinta-suave);
+}
+
+.mas {
+  display: block;
+  margin: var(--espacio-4) auto 0;
+}
+
+app-comentario-item {
+  display: block;
+  padding-left: 2.6rem;
+}

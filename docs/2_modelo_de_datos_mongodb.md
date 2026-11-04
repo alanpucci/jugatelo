@@ -166,7 +166,7 @@ UsuarioSchema.index({ nombreUsuario: 1 },
 
 ```ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type PublicacionDocument = HydratedDocument<Publicacion>;
 
@@ -205,10 +205,10 @@ export class Publicacion {
   @Prop({ type: String, default: null })
   imagenPublicId: string | null;
 
-  @Prop({ type: Types.ObjectId, ref: 'Usuario', required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Usuario', required: true })
   usuario: Types.ObjectId;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Usuario' }], default: [] })
+  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Usuario' }], default: [] })
   meGusta: Types.ObjectId[];
 
   @Prop({ default: 0, min: 0 })
@@ -278,16 +278,16 @@ Colección propia porque se paginan, se editan y se cuentan por rango de fechas 
 
 ```ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type ComentarioDocument = HydratedDocument<Comentario>;
 
 @Schema({ collection: 'comentarios', timestamps: true })
 export class Comentario {
-  @Prop({ type: Types.ObjectId, ref: 'Publicacion', required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Publicacion', required: true })
   publicacion: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: 'Usuario', required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Usuario', required: true })
   usuario: Types.ObjectId;
 
   @Prop({ required: true, trim: true, minlength: 1, maxlength: 500 })

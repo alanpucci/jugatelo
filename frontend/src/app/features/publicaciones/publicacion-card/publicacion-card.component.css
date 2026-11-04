@@ -175,8 +175,16 @@
   letter-spacing: 0.08em;
 }
 
-.texto {
+.cuerpo {
   grid-area: texto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  min-width: 0;
+}
+
+.texto {
+  flex: 1;
   margin: 0;
   min-height: 6rem;
   padding: var(--espacio-3);
@@ -187,6 +195,60 @@
   border-radius: 0.4rem;
   font-size: 0.92rem;
   line-height: 1.55rem;
+}
+
+.anotador {
+  position: relative;
+  padding: var(--espacio-4) var(--espacio-3) var(--espacio-2);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 1.55rem, rgba(37, 99, 184, 0.25) 1.55rem calc(1.55rem + 1px)),
+    #fff8d6;
+  border: var(--borde);
+  border-top: 10px solid var(--rojo);
+  border-radius: 0.3rem;
+  color: var(--tinta);
+  box-shadow: 2px 3px 0 rgba(23, 35, 59, 0.25);
+}
+
+.anotador::before {
+  content: '';
+  position: absolute;
+  top: -0.9rem;
+  left: 50%;
+  width: 5rem;
+  height: 0.6rem;
+  transform: translateX(-50%);
+  border-radius: 0.3rem;
+  background: repeating-linear-gradient(90deg, var(--tinta) 0 0.5rem, transparent 0.5rem 1rem);
+}
+
+.anotador h3 {
+  margin: 0 0 var(--espacio-1);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rojo-oscuro);
+}
+
+.nota {
+  margin: 0;
+  padding-left: var(--espacio-2);
+  border-left: 2px solid var(--rojo);
+  font-size: 0.85rem;
+  line-height: 1.55rem;
+  overflow-wrap: anywhere;
+}
+
+.nota small {
+  margin-left: var(--espacio-1);
+  color: var(--tinta-suave);
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.sin-comentarios {
+  color: var(--tinta-suave);
+  font-style: italic;
 }
 
 footer {
@@ -228,6 +290,11 @@ footer .enlace {
 }
 
 .enlace {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
   color: var(--azul-oscuro);
   font-weight: 800;
   text-decoration: underline;

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type PublicacionDocument = HydratedDocument<Publicacion>;
 
@@ -49,10 +49,13 @@ export class Publicacion {
   @Prop({ type: String, default: null })
   imagenPublicId: string | null;
 
-  @Prop({ type: Types.ObjectId, ref: 'Usuario', required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Usuario', required: true })
   usuario: Types.ObjectId;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Usuario' }], default: [] })
+  @Prop({
+    type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Usuario' }],
+    default: [],
+  })
   meGusta: Types.ObjectId[];
 
   @Prop({ default: 0, min: 0 })

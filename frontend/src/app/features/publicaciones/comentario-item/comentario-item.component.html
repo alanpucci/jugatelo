@@ -1,0 +1,31 @@
+@if (comentario(); as comentario) {
+  <article class="comentario">
+    @if (comentario.usuario.imagenPerfilUrl) {
+      <img class="avatar" appImagenRespaldo [src]="comentario.usuario.imagenPerfilUrl" [alt]="comentario.usuario.nombreUsuario" />
+    } @else {
+      <span class="avatar">{{ comentario.usuario.nombreUsuario[0].toUpperCase() }}</span>
+    }
+    <div class="contenido">
+      <header>
+        <strong>{{ comentario.usuario.nombreUsuario }}</strong>
+        <small>{{ comentario.createdAt | tiempoRelativo }}</small>
+        @if (comentario.modificado) {
+          <small class="editado">(editado)</small>
+        }
+      </header>
+
+      @if (editando()) {
+        <textarea rows="3" [formControl]="mensaje"></textarea>
+        <div class="acciones">
+          <button type="button" class="boton" [disabled]="mensaje.invalid || guardando()" (click)="guardar()">Guardar</button>
+          <button type="button" class="boton boton-secundario" (click)="cancelar()">Cancelar</button>
+        </div>
+      } @else {
+        <p class="mensaje">{{ comentario.mensaje }}</p>
+        @if (esAutor()) {
+          <button type="button" class="editar" (click)="iniciarEdicion()">Editar</button>
+        }
+      }
+    </div>
+  </article>
+}

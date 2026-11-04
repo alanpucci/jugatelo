@@ -52,13 +52,13 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** desde el listado se abre el detalle; una publicación dada de baja muestra el aviso y vuelve al listado.
 - **Depende de:** S3-02
 
-### [ ] S3-07 · Front: comentarios
+### [~] S3-07 · Front: comentarios
 - **Qué:** `ComentariosComponent` (carga inicial offset 0 / limit 5, «Cargar más» acumulativo con descarte de repetidos por `_id`, oculto cuando cargados = total); `ComentarioItemComponent` con «(editado)» y edición en línea solo para el autor; formulario de nuevo comentario (1–500) con inserción al inicio.
 - **Docs:** Doc 1 CU-09, CU-10, RN-06 · Doc 2 §7.6 · Doc 3 §5.2.
 - **Validar:** llegan de a 5 del más reciente al más antiguo; «Cargar más» agrega sin borrar; editar el propio muestra «(editado)»; los ajenos no tienen botón de edición.
 - **Depende de:** S3-03, S3-06
 
-### [ ] S3-08 · Front: Mi Perfil con comentarios reales
+### [~] S3-08 · Front: Mi Perfil con comentarios reales
 - **Qué:** reemplazar «Sin comentarios» por los comentarios reales de cada publicación.
 - **Docs:** Doc 1 CU-11, §6.6.
 - **Validar:** las últimas 3 publicaciones muestran hasta 3 comentarios reales.

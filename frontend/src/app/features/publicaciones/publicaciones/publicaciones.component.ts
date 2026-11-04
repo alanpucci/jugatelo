@@ -71,6 +71,7 @@ export class PublicacionesComponent implements OnInit {
         zona: this.zona(),
         offset,
         limit: POR_PAGINA,
+        comentarios: 3,
       })
       .subscribe({
         next: (pagina) => {

@@ -50,28 +50,6 @@
 
 .publicacion {
   margin-bottom: var(--espacio-5);
-  border-left: 12px solid var(--oro);
-}
-
-.publicacion h3 {
-  margin-bottom: var(--espacio-1);
-}
-
-.publicacion small {
-  color: var(--tinta-suave);
-}
-
-.comentario {
-  margin: var(--espacio-2) 0 0;
-  padding: var(--espacio-2) var(--espacio-3);
-  background: #eef2f9;
-  border-left: 4px solid var(--azul);
-  border-radius: 0 0.5rem 0.5rem 0;
-  color: var(--tinta);
-}
-
-.publicacion-juntada {
-  border-left-color: var(--rojo);
 }
 
 .vacio {

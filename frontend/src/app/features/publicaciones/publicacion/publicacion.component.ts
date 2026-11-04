@@ -4,13 +4,14 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ModalService } from '../../../core/modal.service';
 import { SpinnerComponent } from '../../../shared/spinner/spinner.component';
+import { ComentariosComponent } from '../comentarios/comentarios.component';
 import { PublicacionCardComponent } from '../publicacion-card/publicacion-card.component';
 import { Publicacion } from '../publicacion.model';
 import { PublicacionesService } from '../publicaciones.service';
 
 @Component({
   selector: 'app-publicacion',
-  imports: [RouterLink, PublicacionCardComponent, SpinnerComponent],
+  imports: [RouterLink, PublicacionCardComponent, ComentariosComponent, SpinnerComponent],
   templateUrl: './publicacion.component.html',
   styleUrl: './publicacion.component.css',
 })

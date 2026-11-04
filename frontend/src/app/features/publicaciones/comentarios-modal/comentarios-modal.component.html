@@ -1,0 +1,13 @@
+@if (modalService.publicacion(); as publicacion) {
+  <div class="fondo" (click)="modalService.cerrar()">
+    <div class="ventana" (click)="$event.stopPropagation()">
+      <header>
+        <h2>{{ publicacion.titulo }}</h2>
+        <button type="button" class="boton boton-secundario" (click)="modalService.cerrar()">Cerrar</button>
+      </header>
+      <div class="contenido">
+        <app-comentarios [publicacionId]="publicacion._id" />
+      </div>
+    </div>
+  </div>
+}

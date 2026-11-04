@@ -1,0 +1,63 @@
+.comentario {
+  display: flex;
+  gap: var(--espacio-3);
+  padding: var(--espacio-3) 0;
+  border-bottom: 1px dashed rgba(37, 99, 184, 0.45);
+}
+
+.avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--azul-oscuro);
+  color: var(--naipe);
+  font-weight: 800;
+  object-fit: cover;
+}
+
+.contenido {
+  flex: 1;
+  min-width: 0;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--espacio-2);
+}
+
+.editado {
+  font-style: italic;
+}
+
+.mensaje {
+  margin: var(--espacio-1) 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: var(--espacio-2);
+}
+
+.acciones {
+  display: flex;
+  gap: var(--espacio-2);
+  margin-top: var(--espacio-2);
+}
+
+.editar {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--azul-oscuro);
+  font-weight: 800;
+  text-decoration: underline;
+  cursor: pointer;
+}

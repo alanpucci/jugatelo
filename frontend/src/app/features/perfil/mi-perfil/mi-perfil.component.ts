@@ -5,13 +5,13 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
 import { ImagenRespaldoDirective } from '../../../shared/directivas/imagen-respaldo.directive';
-import { TiempoRelativoPipe } from '../../../shared/pipes/tiempo-relativo.pipe';
+import { PublicacionCardComponent } from '../../publicaciones/publicacion-card/publicacion-card.component';
 import { Publicacion } from '../../publicaciones/publicacion.model';
 import { PublicacionesService } from '../../publicaciones/publicaciones.service';
 
 @Component({
   selector: 'app-mi-perfil',
-  imports: [DatePipe, RouterLink, ImagenRespaldoDirective, TiempoRelativoPipe],
+  imports: [DatePipe, RouterLink, ImagenRespaldoDirective, PublicacionCardComponent],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css',
 })
@@ -24,6 +24,10 @@ export class MiPerfilComponent implements OnInit {
   protected readonly publicaciones = signal<Publicacion[]>([]);
 
   ngOnInit() {
+    this.cargar();
+  }
+
+  protected cargar() {
     const usuario = this.authService.usuarioActual();
     if (!usuario) {
       return;

@@ -1,17 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { Component, OnInit, inject, input, output, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
 import { ImagenRespaldoDirective } from '../../../shared/directivas/imagen-respaldo.directive';
 import { TiempoRelativoPipe } from '../../../shared/pipes/tiempo-relativo.pipe';
 import { TruncarPipe } from '../../../shared/pipes/truncar.pipe';
-import { Publicacion } from '../publicacion.model';
+import { ComentariosModalService } from '../comentarios-modal/comentarios-modal.service';
+import { ComentariosService } from '../comentarios.service';
+import { ComentarioPublicacion, Publicacion } from '../publicacion.model';
 import { PublicacionesService } from '../publicaciones.service';
 
 @Component({
   selector: 'app-publicacion-card',
-  imports: [RouterLink, ImagenRespaldoDirective, TiempoRelativoPipe, TruncarPipe],
+  imports: [ImagenRespaldoDirective, TiempoRelativoPipe, TruncarPipe],
   templateUrl: './publicacion-card.component.html',
   styleUrl: './publicacion-card.component.css',
 })
@@ -19,6 +21,8 @@ export class PublicacionCardComponent implements OnInit {
   private readonly publicacionesService = inject(PublicacionesService);
   private readonly authService = inject(AuthService);
   private readonly modalService = inject(ModalService);
+  private readonly comentariosService = inject(ComentariosService);
+  private readonly comentariosModalService = inject(ComentariosModalService);
 
   readonly publicacion = input<Publicacion | null>(null);
   readonly detalleCompleto = input(false);
@@ -26,6 +30,7 @@ export class PublicacionCardComponent implements OnInit {
 
   protected readonly cantidadMeGusta = signal(0);
   protected readonly meGustaDado = signal(false);
+  protected readonly comentarios = signal<ComentarioPublicacion[] | undefined>(undefined);
 
   ngOnInit() {
     const publicacion = this.publicacion();
@@ -34,6 +39,27 @@ export class PublicacionCardComponent implements OnInit {
     }
     this.cantidadMeGusta.set(publicacion.cantidadMeGusta);
     this.meGustaDado.set(publicacion.meGustaDado);
+    this.comentarios.set(publicacion.comentarios);
+  }
+
+  protected verComentarios() {
+    const publicacion = this.publicacion();
+    if (publicacion) {
+      this.comentariosModalService.abrir(publicacion, () => this.refrescarComentarios());
+    }
+  }
+
+  private async refrescarComentarios() {
+    const publicacion = this.publicacion();
+    if (!publicacion || !this.comentarios()) {
+      return;
+    }
+    try {
+      const pagina = await firstValueFrom(this.comentariosService.listar(publicacion._id, 0, 3));
+      this.comentarios.set(pagina.datos);
+    } catch {
+      return;
+    }
   }
 
   protected alternarMeGusta() {

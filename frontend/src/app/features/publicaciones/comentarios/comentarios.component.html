@@ -1,0 +1,23 @@
+<section class="anotador">
+  <h2>Comentarios ({{ total() }})</h2>
+
+  <form [formGroup]="formulario" (ngSubmit)="enviar()">
+    <textarea rows="3" placeholder="Escribí un comentario" formControlName="mensaje"></textarea>
+    <div class="pie-formulario">
+      <small>{{ mensaje.value.length }}/500</small>
+      <button type="submit" class="boton" [disabled]="mensaje.invalid || enviando()">Comentar</button>
+    </div>
+  </form>
+
+  @for (comentario of comentarios(); track comentario._id) {
+    <app-comentario-item [comentario]="comentario" (editado)="reemplazar($event)" />
+  } @empty {
+    @if (!cargando()) {
+      <p class="vacio">Todavía nadie comentó esta publicación</p>
+    }
+  }
+
+  @if (hayMas()) {
+    <button type="button" class="boton boton-secundario mas" [disabled]="cargando()" (click)="cargarMas()">Cargar más</button>
+  }
+</section>

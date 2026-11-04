@@ -4,7 +4,7 @@
     @if (authService.usuarioActual(); as usuario) {
       <div class="jugador">
         @if (usuario.imagenPerfilUrl) {
-          <img class="foto" [src]="usuario.imagenPerfilUrl" alt="Foto de perfil" />
+          <img class="foto" appImagenRespaldo [src]="usuario.imagenPerfilUrl" alt="Foto de perfil" />
         } @else {
           <span class="foto foto-vacia">{{ usuario.nombre[0] }}</span>
         }

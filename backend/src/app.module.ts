@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { AuthModule } from './auth/auth.module.js';
+import { PublicacionesModule } from './publicaciones/publicaciones.module.js';
 import { ClaveDuplicadaFilter } from './comun/filtros/clave-duplicada.filter.js';
 
 @Module({
@@ -17,6 +18,7 @@ import { ClaveDuplicadaFilter } from './comun/filtros/clave-duplicada.filter.js'
       }),
     }),
     AuthModule,
+    PublicacionesModule,
   ],
   controllers: [AppController],
   providers: [

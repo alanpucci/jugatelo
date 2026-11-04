@@ -417,7 +417,7 @@ Idéntica en los tres documentos.
 
 | Concepto | Back (NestJS) | Front (Angular) | MongoDB |
 |---|---|---|---|
-| Autenticación | AuthModule · AuthController (/auth) · JwtAuthGuard · AdminGuard · @UsuarioActual() | AuthService · TokenService · SesionService · authGuard · adminGuard · invitadoGuard · authInterceptor · errorInterceptor | usa usuarios |
+| Autenticación | AuthModule · AuthController (/auth) · JwtAuthGuard · AdminGuard | AuthService · TokenService · SesionService · authGuard · adminGuard · invitadoGuard · authInterceptor · errorInterceptor | usa usuarios |
 | Usuario | UsuariosModule · UsuariosController (/usuarios) · UsuariosService · Usuario | UsuariosService · FormularioUsuarioComponent · modelo Usuario | usuarios |
 | Publicación (juego o juntada) | PublicacionesModule · PublicacionesController (/publicaciones) · PublicacionesService · Publicacion | PublicacionesService · PublicacionCardComponent · NuevaPublicacionComponent | publicaciones |
 | Me gusta | PublicacionesController (/publicaciones/:id/me-gusta) | PublicacionesService | publicaciones.meGusta[] + cantidadMeGusta |

@@ -1,0 +1,82 @@
+<div class="fondo" (click)="cancelada.emit()">
+  <div class="panel tarjeta" (click)="$event.stopPropagation()">
+    <h2>Nueva publicación</h2>
+    <form [formGroup]="formulario" (ngSubmit)="enviar()">
+      <div class="campo">
+        <label for="tipo">Tipo</label>
+        <select id="tipo" formControlName="tipo">
+          <option value="juego">Tengo un juego</option>
+          <option value="juntada">Armo una juntada</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="titulo">{{ esJuntada() ? 'Título de la juntada' : 'Nombre del juego' }}</label>
+        <input id="titulo" type="text" formControlName="titulo" />
+        <span class="ayuda-campo">{{ longitud('titulo') }}/100</span>
+        <span class="error-campo">{{ mensajeError('titulo') }}</span>
+      </div>
+
+      <div class="campo">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" formControlName="descripcion"></textarea>
+        <span class="ayuda-campo">{{ longitud('descripcion') }}/1000</span>
+        <span class="error-campo">{{ mensajeError('descripcion') }}</span>
+      </div>
+
+      @if (esJuntada()) {
+        <div class="campo">
+          <label for="zona">Zona</label>
+          <input id="zona" type="text" formControlName="zona" />
+          <span class="error-campo">{{ mensajeError('zona') }}</span>
+        </div>
+
+        <div class="fila">
+          <div class="campo">
+            <label for="fechaJuntada">Fecha y hora</label>
+            <input id="fechaJuntada" type="datetime-local" formControlName="fechaJuntada" />
+            <span class="error-campo">{{ mensajeError('fechaJuntada') }}</span>
+          </div>
+          <div class="campo">
+            <label for="cupo">Cupo (opcional)</label>
+            <input id="cupo" type="number" formControlName="cupo" />
+            <span class="error-campo">{{ mensajeError('cupo') }}</span>
+          </div>
+        </div>
+      } @else {
+        <div class="fila">
+          <div class="campo">
+            <label for="jugadoresMin">Jugadores mínimo (opcional)</label>
+            <input id="jugadoresMin" type="number" formControlName="jugadoresMin" />
+            <span class="error-campo">{{ mensajeError('jugadoresMin') }}</span>
+          </div>
+          <div class="campo">
+            <label for="jugadoresMax">Jugadores máximo (opcional)</label>
+            <input id="jugadoresMax" type="number" formControlName="jugadoresMax" />
+            <span class="error-campo">{{ mensajeError('jugadoresMax') }}</span>
+          </div>
+        </div>
+        <span class="error-campo">{{ errorJugadores() }}</span>
+      }
+
+      <div class="campo">
+        <label for="imagen">Imagen (opcional)</label>
+        <input id="imagen" type="file" accept="image/jpeg,image/png,image/webp" (change)="seleccionarImagen($event)" />
+        <span class="error-campo">{{ errorImagen() }}</span>
+        @if (vistaPrevia()) {
+          <img class="vista-previa" [src]="vistaPrevia()" alt="Vista previa" />
+        }
+      </div>
+
+      <div class="acciones">
+        <button type="button" class="boton boton-secundario" (click)="cancelada.emit()">Cancelar</button>
+        <button type="submit" class="boton" [disabled]="formulario.invalid || cargando()">
+          @if (cargando()) {
+            <span class="giro"></span>
+          }
+          Publicar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

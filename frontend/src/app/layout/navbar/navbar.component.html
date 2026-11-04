@@ -1,9 +1,9 @@
 <nav class="navbar">
-  <a class="logo" routerLink="/publicaciones"><img src="favicon.svg" alt="" />Jugátelo</a>
+  <a class="logo" [routerLink]="authService.haySesion() ? '/publicaciones' : '/login'"><img src="favicon.svg" alt="" />Jugátelo</a>
   <div class="enlaces">
-    <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
-    <a routerLink="/mi-perfil" routerLinkActive="activo">Mi Perfil</a>
-    @if (authService.usuarioActual()) {
+    @if (authService.haySesion()) {
+      <a routerLink="/publicaciones" routerLinkActive="activo">Publicaciones</a>
+      <a routerLink="/mi-perfil" routerLinkActive="activo">Mi Perfil</a>
       <button type="button" class="boton boton-secundario" (click)="authService.cerrarSesion()">Cerrar sesión</button>
     } @else {
       <a routerLink="/login" routerLinkActive="activo">Ingresar</a>

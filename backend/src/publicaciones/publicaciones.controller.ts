@@ -39,6 +39,15 @@ export class PublicacionesController {
     return this.publicacionesService.listar(query, usuario);
   }
 
+  @Get(':id')
+  async obtenerPorId(
+    @Param('id', ParseObjectIdPipe) id: string,
+    @Req() peticion: Request,
+  ) {
+    const usuario = await this.authService.obtenerUsuarioDelToken(peticion);
+    return this.publicacionesService.obtenerPorId(id, usuario);
+  }
+
   @Post()
   @UseInterceptors(FileInterceptor('imagen', { storage: memoryStorage() }))
   async crear(

@@ -147,7 +147,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] ParseObjectIdPipe para `:id` (400 si es inválido).
 - [ ] CrearPublicacionDto (tipo + campos opcionales validados en formato) y la función `validarCamposSegunTipo` (RN-14: zona y fechaJuntada obligatorias solo en `juntada`; jugadoresMin/Max, zona, fechaJuntada y cupo rechazados si no corresponden al tipo → 400) y ListarPublicacionesQueryDto (orden, tipo, zona, usuarioId, offset, limit, comentarios; `@Type(() => Number)`, `@Min`, `@Max`).
 - [ ] `POST /publicaciones`: `FileInterceptor('imagen')`, subir a `jugatelo/publicaciones`, usuario = id del token → 201.
-- [ ] `GET /publicaciones` con el pipeline del Doc 2, 7.1 y 7.3 (meGustaDado, autor, comentarios opcionales, filtros tipo y zona).
+- [ ] `GET /publicaciones` con las consultas (`find` + `populate`) del Doc 2, 7.1 y 7.3 (meGustaDado, autor, comentarios opcionales, filtros tipo y zona).
 - [ ] `DELETE /publicaciones/:id`: autor o administrador (ya preparado para S4), `activa = false` → 200.
 - [ ] `POST` y `DELETE /publicaciones/:id/me-gusta` con updates atómicos (Doc 2, 7.4): 201 / 409 / 200 / 404.
 - [ ] AdminGuard escrito (se usa en S4) — *adelantado*.
@@ -209,7 +209,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] `POST /auth/autorizar` (`@HttpCode(200)`): JwtAuthGuard → devuelve `{ usuario }`.
 - [ ] `POST /auth/refrescar` (`@HttpCode(200)`): firma un token nuevo con la misma payload y 15 min.
 - [ ] Confirmar que login y registro devuelven token (ya hecho en S1).
-- [ ] `GET /publicaciones/:id` (S-08): pipeline de 7.1 con `$match` por `_id`; 404 si no existe o `activa = false`.
+- [ ] `GET /publicaciones/:id` (S-08): `findOne` con `populate` como en 7.1, filtrando por `_id` y `activa`; 404 si no existe o `activa = false`.
 - [ ] ComentariosController en PublicacionesModule: GET / POST / PUT según Doc 2, 7.6.
 - [ ] CrearComentarioDto / EditarComentarioDto (mensaje 1–500) y PaginacionQueryDto (offset, limit).
 - [ ] PUT: 403 si no es el autor; marca `modificado = true`.

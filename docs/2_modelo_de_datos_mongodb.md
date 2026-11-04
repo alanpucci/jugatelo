@@ -335,27 +335,28 @@ const orden = q.orden === 'meGusta'
   ? { cantidadMeGusta: -1, createdAt: -1, _id: -1 }
   : { createdAt: -1, _id: -1 };
 
-const pipeline: PipelineStage[] = [
-  { $match: filtro },
-  { $sort: orden },
-  { $skip: q.offset },   // def. 0
-  { $limit: q.limit },   // def. 10, máx. 50
-  { $lookup: { from: 'usuarios', localField: 'usuario', foreignField: '_id', as: 'usuario',
-      pipeline: [{ $project: { nombreUsuario: 1, nombre: 1, apellido: 1, imagenPerfilUrl: 1 } }] } },
-  { $unwind: '$usuario' },
-  { $addFields: { meGustaDado: { $in: [yo, '$meGusta'] } } },
-  { $project: { meGusta: 0, imagenPublicId: 0, activa: 0, __v: 0 } },
-];
-if (q.comentarios > 0) pipeline.push(...etapaComentarios(q.comentarios)); // ver 7.3
-
-const [datos, total] = await Promise.all([
-  this.publicacionModel.aggregate(pipeline),
+const [publicaciones, total] = await Promise.all([
+  this.publicacionModel.find(filtro)
+    .sort(orden)
+    .skip(q.offset)   // def. 0
+    .limit(q.limit)   // def. 10, máx. 50
+    .populate('usuario', 'nombreUsuario nombre apellido imagenPerfilUrl')
+    .select('-imagenPublicId -activa -__v')
+    .lean(),
   this.publicacionModel.countDocuments(filtro),
 ]);
+
+const datos = await Promise.all(publicaciones.map(async (p) => {
+  const { meGusta, ...resto } = p;
+  const detalle = { ...resto, meGustaDado: meGusta.some((u) => u.equals(yo._id)) };
+  return q.comentarios > 0
+    ? { ...detalle, comentarios: await this.ultimosComentarios(p._id, q.comentarios) } // ver 7.3
+    : detalle;
+}));
 return { datos, total, offset: q.offset, limit: q.limit };
 ```
 
-Nota: `$lookup` con localField/foreignField **y** pipeline requiere MongoDB ≥ 5.0 (Atlas lo cumple). Los índices compuestos del cap. 5 cubren `$match` + `$sort` de los dos órdenes.
+Se usa `populate` y no `aggregate` (criterio general del proyecto). `meGustaDado` se calcula en JS con el array `meGusta`, que se descarta antes de responder. Los índices compuestos del cap. 5 cubren `filtro` + `sort` de los dos órdenes.
 
 ### 7.2 Filtros por usuario, tipo y zona
 Es E-06 con `usuarioId`, `tipo` y/o `zona`: el `$match` usa el índice `{ usuario: 1, activa: 1, createdAt: -1 }` (usuario) o `{ activa: 1, tipo: 1, ... }` (tipo y zona). Si usuarioId no es un ObjectId válido o tipo no es `juego`/`juntada`, el DTO responde 400. La zona se busca por coincidencia parcial sin distinguir mayúsculas; `escaparRegex` neutraliza los caracteres especiales para que lo escrito se tome literal.
@@ -363,26 +364,20 @@ Es E-06 con `usuarioId`, `tipo` y/o `zona`: el `$match` usa el índice `{ usuari
 `GET /publicaciones?tipo=juntada&zona=crespo&orden=fecha`
 
 ### 7.3 Últimas 3 publicaciones con sus comentarios (Mi Perfil)
-Mi Perfil llama a `GET /publicaciones?usuarioId=<yo>&limit=3&comentarios=3`. La etapa extra trae los 3 comentarios más recientes de cada publicación con su autor (S-12).
+Mi Perfil llama a `GET /publicaciones?usuarioId=<yo>&limit=3&comentarios=3`. Se traen los 3 comentarios más recientes de cada publicación con su autor (S-12).
 
 ```ts
-const etapaComentarios = (n: number): PipelineStage[] => [
-  { $lookup: {
-      from: 'comentarios',
-      let: { pid: '$_id' },
-      pipeline: [
-        { $match: { $expr: { $eq: ['$publicacion', '$$pid'] } } },
-        { $sort: { createdAt: -1 } },
-        { $limit: n },
-        { $lookup: { from: 'usuarios', localField: 'usuario', foreignField: '_id', as: 'usuario',
-            pipeline: [{ $project: { nombreUsuario: 1, imagenPerfilUrl: 1 } }] } },
-        { $unwind: '$usuario' },
-        { $project: { __v: 0 } },
-      ],
-      as: 'comentarios',
-  } },
-];
+ultimosComentarios(publicacionId: Types.ObjectId, n: number) {
+  return this.comentarioModel.find({ publicacion: publicacionId })
+    .sort({ createdAt: -1, _id: -1 })
+    .limit(n)
+    .populate('usuario', 'nombreUsuario imagenPerfilUrl')
+    .select('-__v')
+    .lean();
+}
 ```
+
+`populate` no puede limitar por documento padre, por eso se hace una consulta por publicación (en paralelo, cubierta por el índice `{ publicacion: 1, createdAt: -1 }`). Con `limit = 3` son 3 consultas extra.
 
 ### 7.4 Dar y quitar «Me gusta» (E-09 / E-10)
 Operaciones atómicas sobre un solo documento: la condición del filtro garantiza un único me gusta por usuario y que el contador se mueva junto con el array, aun con dos clics simultáneos.
@@ -414,7 +409,7 @@ return { cantidadMeGusta: pub2.cantidadMeGusta, meGustaDado: false };
 ### 7.5 Detalle y baja lógica (E-07 / E-08)
 
 ```ts
-// E-07 detalle: mismo pipeline que 7.1 con $match { _id: id, activa: true } y $limit 1 -> 404 si vacío
+// E-07 detalle: findOne({ _id: id, activa: true }) con el mismo populate, select y meGustaDado que 7.1 -> 404 si no existe
 
 // E-08 baja lógica: solo autor o administrador
 const pub = await this.publicacionModel.findOne({ _id: id, activa: true }, { usuario: 1 });

@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, PipelineStage, QueryFilter, Types } from 'mongoose';
+import { Model, QueryFilter, Types } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
 import { UsuarioDocument } from '../usuarios/esquemas/usuario.schema.js';
 import {
@@ -13,9 +13,13 @@ import {
   validarCamposSegunTipo,
 } from './dto/crear-publicacion.dto.js';
 import { ListarPublicacionesQueryDto } from './dto/listar-publicaciones-query.dto.js';
+import { Comentario } from './esquemas/comentario.schema.js';
 import { Publicacion } from './esquemas/publicacion.schema.js';
 
 const CARPETA_PUBLICACIONES = 'jugatelo/publicaciones';
+
+const CAMPOS_AUTOR = 'nombreUsuario nombre apellido imagenPerfilUrl';
+const CAMPOS_EXCLUIDOS = '-imagenPublicId -activa -__v';
 
 function escaparRegex(texto: string) {
   return texto.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -26,6 +30,8 @@ export class PublicacionesService {
   constructor(
     @InjectModel(Publicacion.name)
     private readonly publicacionModel: Model<Publicacion>,
+    @InjectModel(Comentario.name)
+    private readonly comentarioModel: Model<Comentario>,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
@@ -46,42 +52,46 @@ export class PublicacionesService {
         ? { cantidadMeGusta: -1, createdAt: -1, _id: -1 }
         : { createdAt: -1, _id: -1 };
 
-    const pipeline: PipelineStage[] = [
-      { $match: filtro },
-      { $sort: orden },
-      { $skip: query.offset },
-      { $limit: query.limit },
-      {
-        $lookup: {
-          from: 'usuarios',
-          localField: 'usuario',
-          foreignField: '_id',
-          as: 'usuario',
-          pipeline: [
-            {
-              $project: {
-                nombreUsuario: 1,
-                nombre: 1,
-                apellido: 1,
-                imagenPerfilUrl: 1,
-              },
-            },
-          ],
-        },
-      },
-      { $unwind: '$usuario' },
-      { $addFields: { meGustaDado: { $in: [usuario._id, '$meGusta'] } } },
-      { $project: { meGusta: 0, imagenPublicId: 0, activa: 0, __v: 0 } },
-    ];
-    if (query.comentarios > 0) {
-      pipeline.push(...this.etapaComentarios(query.comentarios));
-    }
-
-    const [datos, total] = await Promise.all([
-      this.publicacionModel.aggregate(pipeline),
+    const [publicaciones, total] = await Promise.all([
+      this.publicacionModel
+        .find(filtro)
+        .sort(orden)
+        .skip(query.offset)
+        .limit(query.limit)
+        .populate('usuario', CAMPOS_AUTOR)
+        .select(CAMPOS_EXCLUIDOS)
+        .lean(),
       this.publicacionModel.countDocuments(filtro),
     ]);
+
+    const datos = await Promise.all(
+      publicaciones.map(async (publicacion) => {
+        const detalle = this.agregarMeGustaDado(publicacion, usuario);
+        if (query.comentarios === 0) {
+          return detalle;
+        }
+        return {
+          ...detalle,
+          comentarios: await this.ultimosComentarios(
+            publicacion._id,
+            query.comentarios,
+          ),
+        };
+      }),
+    );
     return { datos, total, offset: query.offset, limit: query.limit };
+  }
+
+  async obtenerPorId(id: string, usuario: UsuarioDocument) {
+    const publicacion = await this.publicacionModel
+      .findOne({ _id: id, activa: true })
+      .populate('usuario', CAMPOS_AUTOR)
+      .select(CAMPOS_EXCLUIDOS)
+      .lean();
+    if (!publicacion) {
+      throw new NotFoundException('La publicación no existe');
+    }
+    return this.agregarMeGustaDado(publicacion, usuario);
   }
 
   async crear(
@@ -148,9 +158,7 @@ export class PublicacionesService {
       { returnDocument: 'after', projection: { cantidadMeGusta: 1 } },
     );
     if (!publicacion) {
-      throw new NotFoundException(
-        'No habías dado me gusta a esta publicación',
-      );
+      throw new NotFoundException('No habías dado me gusta a esta publicación');
     }
     return { cantidadMeGusta: publicacion.cantidadMeGusta, meGustaDado: false };
   }
@@ -186,33 +194,24 @@ export class PublicacionesService {
     }
   }
 
-  private etapaComentarios(cantidad: number): PipelineStage[] {
-    return [
-      {
-        $lookup: {
-          from: 'comentarios',
-          let: { pid: '$_id' },
-          pipeline: [
-            { $match: { $expr: { $eq: ['$publicacion', '$$pid'] } } },
-            { $sort: { createdAt: -1 } },
-            { $limit: cantidad },
-            {
-              $lookup: {
-                from: 'usuarios',
-                localField: 'usuario',
-                foreignField: '_id',
-                as: 'usuario',
-                pipeline: [
-                  { $project: { nombreUsuario: 1, imagenPerfilUrl: 1 } },
-                ],
-              },
-            },
-            { $unwind: '$usuario' },
-            { $project: { __v: 0 } },
-          ],
-          as: 'comentarios',
-        },
-      },
-    ];
+  private agregarMeGustaDado<T extends { meGusta: Types.ObjectId[] }>(
+    publicacion: T,
+    usuario: UsuarioDocument,
+  ) {
+    const { meGusta, ...resto } = publicacion;
+    return {
+      ...resto,
+      meGustaDado: meGusta.some((quien) => quien.equals(usuario._id)),
+    };
+  }
+
+  private ultimosComentarios(publicacionId: Types.ObjectId, cantidad: number) {
+    return this.comentarioModel
+      .find({ publicacion: publicacionId })
+      .sort({ createdAt: -1, _id: -1 })
+      .limit(cantidad)
+      .populate('usuario', 'nombreUsuario imagenPerfilUrl')
+      .select('-__v')
+      .lean();
   }
 }

@@ -16,7 +16,7 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** con token válido → 200 con `usuario` / `token`; el token decodificado tiene `{ sub, correo, nombreUsuario, perfil }` y `exp − iat = 900`; sin token, con token alterado o vencido → 401.
 - **Depende de:** S1-05
 
-### [ ] S3-02 · Back: detalle de publicación — GET /publicaciones/:id (E-07)
+### [~] S3-02 · Back: detalle de publicación — GET /publicaciones/:id (E-07)
 - **Qué:** pipeline del Doc 2 §7.1 con `$match` por `_id`; `meGustaDado`, autor y datos de la publicación; 404 si no existe o `activa = false`.
 - **Docs:** Doc 1 E-07, S-08 · Doc 2 §7.1.
 - **Validar:** id válido → 200; id inexistente o dado de baja → 404; `/publicaciones/abc` → 400; sin token → 401.

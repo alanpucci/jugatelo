@@ -1,4 +1,4 @@
-import { Injectable, effect, inject, untracked } from '@angular/core';
+import { Injectable, effect, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 import { ModalService } from './modal.service';
@@ -15,21 +15,13 @@ export class SesionService {
   private avisoMostrado = false;
 
   constructor() {
-    effect(() => {
-      if (this.authService.haySesion()) {
-        untracked(() => {
-          this.avisoMostrado = false;
-          this.programar();
-        });
-      } else {
-        untracked(() => this.detener());
+    effect((onCleanup) => {
+      if (!this.authService.haySesion()) {
+        return;
       }
-    });
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible' && this.authService.haySesion()) {
-        this.revisar();
-      }
+      this.avisoMostrado = false;
+      this.programar();
+      onCleanup(() => this.detener());
     });
   }
 
@@ -54,15 +46,6 @@ export class SesionService {
   private detener() {
     clearTimeout(this.temporizadorAviso);
     clearTimeout(this.temporizadorVencimiento);
-  }
-
-  private revisar() {
-    const expiracion = this.tokenService.leerExpiracion();
-    if (expiracion && expiracion <= Date.now()) {
-      this.vencer();
-      return;
-    }
-    this.programar();
   }
 
   private async avisar() {

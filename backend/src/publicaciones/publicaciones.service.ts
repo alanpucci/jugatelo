@@ -171,7 +171,8 @@ export class PublicacionesService {
       { returnDocument: 'after', projection: { cantidadMeGusta: 1 } },
     );
     if (!publicacion) {
-      throw new NotFoundException('No habías dado me gusta a esta publicación');
+      await this.asegurarPublicacionActiva(id);
+      throw new ConflictException('No habías dado me gusta a esta publicación');
     }
     return { cantidadMeGusta: publicacion.cantidadMeGusta, meGustaDado: false };
   }

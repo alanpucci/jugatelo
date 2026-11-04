@@ -4,13 +4,14 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
+import { ImagenRespaldoDirective } from '../../../shared/directivas/imagen-respaldo.directive';
 import { TiempoRelativoPipe } from '../../../shared/pipes/tiempo-relativo.pipe';
 import { Publicacion } from '../../publicaciones/publicacion.model';
 import { PublicacionesService } from '../../publicaciones/publicaciones.service';
 
 @Component({
   selector: 'app-mi-perfil',
-  imports: [DatePipe, RouterLink, TiempoRelativoPipe],
+  imports: [DatePipe, RouterLink, ImagenRespaldoDirective, TiempoRelativoPipe],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css',
 })

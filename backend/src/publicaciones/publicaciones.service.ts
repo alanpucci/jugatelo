@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, PipelineStage, QueryFilter, Types } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
@@ -120,6 +125,64 @@ export class PublicacionesService {
         await this.cloudinaryService.eliminarImagen(subida.publicId);
       }
       throw error;
+    }
+  }
+
+  async darMeGusta(id: string, usuario: UsuarioDocument) {
+    const publicacion = await this.publicacionModel.findOneAndUpdate(
+      { _id: id, activa: true, meGusta: { $ne: usuario._id } },
+      { $addToSet: { meGusta: usuario._id }, $inc: { cantidadMeGusta: 1 } },
+      { returnDocument: 'after', projection: { cantidadMeGusta: 1 } },
+    );
+    if (!publicacion) {
+      await this.asegurarPublicacionActiva(id);
+      throw new ConflictException('Ya diste me gusta a esta publicación');
+    }
+    return { cantidadMeGusta: publicacion.cantidadMeGusta, meGustaDado: true };
+  }
+
+  async quitarMeGusta(id: string, usuario: UsuarioDocument) {
+    const publicacion = await this.publicacionModel.findOneAndUpdate(
+      { _id: id, activa: true, meGusta: usuario._id },
+      { $pull: { meGusta: usuario._id }, $inc: { cantidadMeGusta: -1 } },
+      { returnDocument: 'after', projection: { cantidadMeGusta: 1 } },
+    );
+    if (!publicacion) {
+      throw new NotFoundException(
+        'No habías dado me gusta a esta publicación',
+      );
+    }
+    return { cantidadMeGusta: publicacion.cantidadMeGusta, meGustaDado: false };
+  }
+
+  async eliminar(id: string, usuario: UsuarioDocument) {
+    const publicacion = await this.publicacionModel.findOne(
+      { _id: id, activa: true },
+      { usuario: 1 },
+    );
+    if (!publicacion) {
+      throw new NotFoundException('La publicación no existe');
+    }
+    const esAutor = publicacion.usuario.equals(usuario._id);
+    if (!esAutor && usuario.perfil !== 'administrador') {
+      throw new ForbiddenException(
+        'No tenés permiso para eliminar esta publicación',
+      );
+    }
+    await this.publicacionModel.updateOne(
+      { _id: id },
+      { $set: { activa: false } },
+    );
+    return { mensaje: 'Publicación eliminada' };
+  }
+
+  private async asegurarPublicacionActiva(id: string) {
+    const existe = await this.publicacionModel.exists({
+      _id: id,
+      activa: true,
+    });
+    if (!existe) {
+      throw new NotFoundException('La publicación no existe');
     }
   }
 

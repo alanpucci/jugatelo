@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Paginado } from '../../core/paginado.model';
-import { FiltrosPublicaciones, Publicacion } from './publicacion.model';
+import { EstadoMeGusta, FiltrosPublicaciones, Publicacion } from './publicacion.model';
 
 @Injectable({ providedIn: 'root' })
 export class PublicacionesService {
@@ -20,5 +20,17 @@ export class PublicacionesService {
       }
     }
     return this.http.get<Paginado<Publicacion>>(`${environment.apiUrl}/publicaciones`, { params });
+  }
+
+  eliminar(id: string) {
+    return this.http.delete<{ mensaje: string }>(`${environment.apiUrl}/publicaciones/${id}`);
+  }
+
+  darMeGusta(id: string) {
+    return this.http.post<EstadoMeGusta>(`${environment.apiUrl}/publicaciones/${id}/me-gusta`, {});
+  }
+
+  quitarMeGusta(id: string) {
+    return this.http.delete<EstadoMeGusta>(`${environment.apiUrl}/publicaciones/${id}/me-gusta`);
   }
 }

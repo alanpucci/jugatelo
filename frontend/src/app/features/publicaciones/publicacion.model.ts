@@ -53,3 +53,8 @@ export interface FiltrosPublicaciones {
   usuarioId: string;
   comentarios: number;
 }
+
+export interface EstadoMeGusta {
+  cantidadMeGusta: number;
+  meGustaDado: boolean;
+}

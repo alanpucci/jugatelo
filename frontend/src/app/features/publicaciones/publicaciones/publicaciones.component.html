@@ -19,57 +19,7 @@
     </header>
 
     @for (publicacion of publicaciones(); track publicacion._id) {
-      <article class="carta" [class.carta-juntada]="publicacion.tipo === 'juntada'">
-        <div class="marco">
-          <div class="nombre">
-            <h2>{{ publicacion.titulo }}</h2>
-          </div>
-
-          <div class="ventana" [class.con-imagen]="publicacion.imagenUrl">
-            @if (publicacion.imagenUrl) {
-              <img class="imagen" [src]="publicacion.imagenUrl" [alt]="publicacion.titulo" />
-            }
-            <div class="oval">
-              <strong>{{ cifra(publicacion) }}</strong>
-              <small>{{ etiqueta(publicacion) }}</small>
-            </div>
-          </div>
-
-          <div class="tipo-linea">
-            <span>{{ publicacion.tipo === 'juego' ? 'Juego de mesa' : 'Juntada' }}</span>
-            <span>{{ detalle(publicacion) }}</span>
-          </div>
-
-          <p class="texto">{{ publicacion.descripcion }}</p>
-
-          <footer>
-            <div class="autor">
-              @if (publicacion.usuario.imagenPerfilUrl) {
-                <img class="avatar" [src]="publicacion.usuario.imagenPerfilUrl" [alt]="publicacion.usuario.nombreUsuario" />
-              } @else {
-                <span class="avatar">{{ publicacion.usuario.nombreUsuario[0].toUpperCase() }}</span>
-              }
-              <div>
-                <strong>{{ publicacion.usuario.nombreUsuario }}</strong>
-                <small>{{ publicacion.createdAt | tiempoRelativo }}</small>
-              </div>
-            </div>
-            <button
-              type="button"
-              class="corazon"
-              [class.corazon-activo]="publicacion.meGustaDado"
-            >
-              <svg class="corazon-forma" viewBox="0 0 64 58">
-                <path class="corazon-cuerpo" d="M32 55C10 40 3 29 3 18 3 9 10 3 18 3c6 0 11 3 14 8 3-5 8-8 14-8 8 0 15 6 15 15 0 11-7 22-29 37z" />
-                <path class="corazon-aro" d="M32 47C16 36 11 28 11 19c0-5 4-9 9-9 5 0 9 3 12 8 3-5 7-8 12-8 5 0 9 4 9 9 0 9-5 17-21 28z" />
-              </svg>
-              <span class="corazon-numero">{{ publicacion.cantidadMeGusta }}</span>
-              <span class="corazon-texto">{{ publicacion.meGustaDado ? 'Te gusta' : 'Me gusta' }}</span>
-            </button>
-            <span class="enlace">Ver comentarios</span>
-          </footer>
-        </div>
-      </article>
+      <app-publicacion-card [publicacion]="publicacion" (eliminada)="eliminada()" />
     } @empty {
       @if (!cargando()) {
         <p class="vacio">Todavía no hay publicaciones. ¡Compartí tu primer juego o armá una juntada!</p>

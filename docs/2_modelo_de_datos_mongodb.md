@@ -389,22 +389,26 @@ Operaciones atómicas sobre un solo documento: la condición del filtro garantiz
 
 ```ts
 // E-09 dar me gusta
-const r = await this.publicacionModel.updateOne(
+const pub = await this.publicacionModel.findOneAndUpdate(
   { _id: id, activa: true, meGusta: { $ne: yo } },
   { $addToSet: { meGusta: yo }, $inc: { cantidadMeGusta: 1 } },
+  { returnDocument: 'after', projection: { cantidadMeGusta: 1 } },
 );
-if (r.modifiedCount === 0) {
+if (!pub) {
   const existe = await this.publicacionModel.exists({ _id: id, activa: true });
   if (!existe) throw new NotFoundException('La publicación no existe');
   throw new ConflictException('Ya diste me gusta a esta publicación'); // 409
 }
+return { cantidadMeGusta: pub.cantidadMeGusta, meGustaDado: true };
 
 // E-10 quitar me gusta
-const r2 = await this.publicacionModel.updateOne(
+const pub2 = await this.publicacionModel.findOneAndUpdate(
   { _id: id, activa: true, meGusta: yo },
   { $pull: { meGusta: yo }, $inc: { cantidadMeGusta: -1 } },
+  { returnDocument: 'after', projection: { cantidadMeGusta: 1 } },
 );
-if (r2.modifiedCount === 0) throw new NotFoundException('No habías dado me gusta a esta publicación'); // S-13
+if (!pub2) throw new NotFoundException('No habías dado me gusta a esta publicación'); // S-13
+return { cantidadMeGusta: pub2.cantidadMeGusta, meGustaDado: false };
 ```
 
 ### 7.5 Detalle y baja lógica (E-07 / E-08)

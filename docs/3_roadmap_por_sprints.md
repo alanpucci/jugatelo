@@ -145,7 +145,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] Esquema Comentario (S-09) registrado en PublicacionesModule.
 - [ ] JwtAuthGuard (verifica token, carga el usuario, chequea habilitado) y `AuthService.obtenerUsuarioDelToken(peticion)` para obtener el usuario en los controllers — *adelantado*.
 - [ ] ParseObjectIdPipe para `:id` (400 si es inválido).
-- [ ] CrearPublicacionDto (tipo + campos condicionales con `@ValidateIf` según RN-14: zona y fechaJuntada obligatorias solo en `juntada`; jugadoresMin/Max solo en `juego`) y ListarPublicacionesQueryDto (orden, tipo, zona, usuarioId, offset, limit, comentarios; `@Type(() => Number)`, `@Min`, `@Max`).
+- [ ] CrearPublicacionDto (tipo + campos opcionales validados en formato) y la función `validarCamposSegunTipo` (RN-14: zona y fechaJuntada obligatorias solo en `juntada`; jugadoresMin/Max, zona, fechaJuntada y cupo rechazados si no corresponden al tipo → 400) y ListarPublicacionesQueryDto (orden, tipo, zona, usuarioId, offset, limit, comentarios; `@Type(() => Number)`, `@Min`, `@Max`).
 - [ ] `POST /publicaciones`: `FileInterceptor('imagen')`, subir a `jugatelo/publicaciones`, usuario = id del token → 201.
 - [ ] `GET /publicaciones` con el pipeline del Doc 2, 7.1 y 7.3 (meGustaDado, autor, comentarios opcionales, filtros tipo y zona).
 - [ ] `DELETE /publicaciones/:id`: autor o administrador (ya preparado para S4), `activa = false` → 200.

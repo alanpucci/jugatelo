@@ -66,9 +66,3 @@ export class Publicacion {
 }
 
 export const PublicacionSchema = SchemaFactory.createForClass(Publicacion);
-PublicacionSchema.index({ activa: 1, createdAt: -1 });
-PublicacionSchema.index({ activa: 1, cantidadMeGusta: -1, createdAt: -1 });
-PublicacionSchema.index({ activa: 1, tipo: 1, createdAt: -1 });
-PublicacionSchema.index({ activa: 1, tipo: 1, zona: 1 });
-PublicacionSchema.index({ usuario: 1, activa: 1, createdAt: -1 });
-PublicacionSchema.index({ createdAt: 1 });

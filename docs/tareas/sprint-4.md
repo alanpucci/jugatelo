@@ -40,8 +40,8 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** con perfil usuario el enlace no aparece y `/dashboard/usuarios` redirige a `/publicaciones`; el admin ve «Eliminar» en publicaciones ajenas; un deshabilitado ve el mensaje al loguearse y con sesión abierta es sacado en la siguiente petición.
 - **Depende de:** S4-01
 
-### [ ] S4-05 · Front: Dashboard Usuarios
-- **Qué:** `UsuariosService`; `DashboardUsuariosComponent` con tabla, Deshabilitar / Habilitar con confirmación (no sobre uno mismo) y «Nuevo usuario»; `FormularioUsuarioComponent` en modo admin con radio buttons de perfil.
+### [~] S4-05 · Front: Dashboard Usuarios
+- **Qué:** `UsuariosService`; pipe `nombreCompleto`; ruta `/dashboard/usuarios` con `authGuard` y `adminGuard`; `DashboardUsuariosComponent` con tabla, Deshabilitar / Habilitar con confirmación (no sobre uno mismo) y «Nuevo usuario»; `FormularioUsuarioComponent` en modo admin con radio buttons de perfil.
 - **Docs:** Doc 1 CU-12, §6.7 · Doc 3 §6.2.
 - **Validar:** el listado coincide con la base; alta de admin → fila nueva; deshabilitar/habilitar cambia el estado; la fila propia no tiene acción.
 - **Depende de:** S4-01, S4-04

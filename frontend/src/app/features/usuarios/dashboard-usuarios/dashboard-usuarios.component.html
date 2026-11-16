@@ -1,0 +1,70 @@
+<section class="pagina ancha">
+  <div class="encabezado">
+    <h1 class="titulo">Usuarios</h1>
+    <button type="button" class="boton" (click)="alternarFormulario()">
+      {{ mostrandoFormulario() ? 'Cancelar' : 'Nuevo usuario' }}
+    </button>
+  </div>
+
+  @if (mostrandoFormulario()) {
+    <div class="tarjeta formulario">
+      <h2>Nuevo usuario</h2>
+      <app-formulario-usuario [esAdmin]="true" [cargando]="creando()" textoBoton="Crear usuario" (enviado)="crear($event)" />
+    </div>
+  }
+
+  @if (cargando()) {
+    <app-spinner />
+  } @else {
+    <div class="tarjeta tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th>Foto</th>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Perfil</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios(); track usuario._id) {
+            <tr>
+              <td>
+                @if (usuario.imagenPerfilUrl) {
+                  <img class="foto" appImagenRespaldo [src]="usuario.imagenPerfilUrl" [alt]="usuario.nombreUsuario" />
+                } @else {
+                  <span class="foto foto-vacia">{{ usuario.nombre[0] }}</span>
+                }
+              </td>
+              <td>{{ usuario | nombreCompleto }}</td>
+              <td>&#64;{{ usuario.nombreUsuario }}</td>
+              <td>{{ usuario.correo }}</td>
+              <td>{{ usuario.perfil }}</td>
+              <td>
+                <span class="estado" [class.deshabilitado]="!usuario.habilitado">
+                  {{ usuario.habilitado ? 'Habilitado' : 'Deshabilitado' }}
+                </span>
+              </td>
+              <td>
+                @if (esPropio(usuario)) {
+                  <span class="tu">Vos</span>
+                } @else if (usuario.habilitado) {
+                  <button type="button" class="boton boton-peligro" (click)="deshabilitar(usuario)">Deshabilitar</button>
+                } @else {
+                  <button type="button" class="boton boton-secundario" (click)="habilitar(usuario)">Habilitar</button>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="vacio">No hay usuarios.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

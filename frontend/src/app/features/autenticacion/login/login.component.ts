@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
+import { MENSAJE_USUARIO_DESHABILITADO } from '../../../core/token.interceptor';
 import { contrasenaSegura } from '../../../shared/validadores/validadores';
 
 @Component({
@@ -63,7 +64,7 @@ export class LoginComponent {
       return 'Correo o contraseña incorrectos';
     }
     if (error.status === 403) {
-      return 'Tu cuenta está deshabilitada. Contactá a un administrador.';
+      return MENSAJE_USUARIO_DESHABILITADO;
     }
     if (error.status === 0) {
       return 'No pudimos conectar con el servidor';

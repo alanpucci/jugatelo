@@ -102,7 +102,7 @@ export class PublicacionCardComponent implements OnInit {
     if (!publicacion || !usuario) {
       return false;
     }
-    return publicacion.usuario._id === usuario._id;
+    return publicacion.usuario._id === usuario._id || usuario.perfil === 'administrador';
   }
 
   protected async eliminar() {

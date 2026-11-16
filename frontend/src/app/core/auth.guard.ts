@@ -26,3 +26,13 @@ export const invitadoGuard: CanActivateFn = () => {
   }
   return true;
 };
+
+export const adminGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.usuarioActual()?.perfil === 'administrador') {
+    return true;
+  }
+  return router.createUrlTree(['/publicaciones']);
+};

@@ -34,8 +34,8 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 
 > Se aplican las reglas de código del frontend (`frontend/CLAUDE.md`).
 
-### [ ] S4-04 · Front: acceso de administrador y usuario deshabilitado
-- **Qué:** `adminGuard`; directiva `appSoloAdmin` y enlace «Dashboard» en el navbar; botón «Eliminar» de carta y detalle también para administradores; `LoginComponent` y `errorInterceptor` muestran por `ModalService` el 403 de usuario deshabilitado y sacan la sesión.
+### [~] S4-04 · Front: acceso de administrador y usuario deshabilitado
+- **Qué:** `adminGuard` (se aplica a las rutas `/dashboard/*` cuando se crean en S4-05 y S4-06); directiva `appSoloAdmin` y enlace «Dashboard» en el navbar; botón «Eliminar» de carta y detalle también para administradores; `LoginComponent` y `tokenInterceptor` (el proyecto no tiene `errorInterceptor` aparte) muestran por `ModalService` el 403 de usuario deshabilitado y sacan la sesión.
 - **Docs:** Doc 1 RN-07, S-16 · Doc 3 §6.2.
 - **Validar:** con perfil usuario el enlace no aparece y `/dashboard/usuarios` redirige a `/publicaciones`; el admin ve «Eliminar» en publicaciones ajenas; un deshabilitado ve el mensaje al loguearse y con sesión abierta es sacado en la siguiente petición.
 - **Depende de:** S4-01

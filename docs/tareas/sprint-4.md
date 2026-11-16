@@ -22,8 +22,8 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** con admin y un rango con datos → 200 con la forma del Doc 1; `desde > hasta` o fecha inválida → 400; con perfil usuario → 403; un comentario de una publicación dada de baja no cuenta.
 - **Depende de:** S4-01
 
-### [ ] S4-03 · Back: baja de cualquier publicación por administrador (E-08)
-- **Qué:** verificar que `DELETE /publicaciones/:id` acepta administradores y que los comentarios de una publicación dada de baja responden 404.
+### [~] S4-03 · Back: baja de cualquier publicación por administrador (E-08)
+- **Qué:** verificar que `DELETE /publicaciones/:id` acepta administradores y que los comentarios de una publicación dada de baja responden 404. Revisado en el código, sin cambios: `PublicacionesService.eliminar` permite al autor o a `perfil = administrador`, y los tres endpoints de comentarios llaman a `asegurarPublicacionActiva` (404).
 - **Docs:** Doc 1 RF-25, E-08.
 - **Validar:** el admin elimina una publicación ajena → 200; `GET /publicaciones/:id/comentarios` de esa publicación → 404.
 - **Depende de:** S4-01

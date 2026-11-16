@@ -215,7 +215,7 @@ Vacío: «Todavía no hay publicaciones. ¡Compartí tu primer juego o armá una
 
 **CU-07 Dar o quitar «Me gusta»** (S2 · Usuario · publicación activa · E-09, E-10)
 1. Presiona el corazón sin me gusta → E-09. 2. 201: se marca y actualiza cantidadMeGusta. 3. Si ya estaba marcado → E-10 → 200, se desmarca.
-Errores: 1a 409 (ya lo había dado, p. ej. desde otra pestaña) → se marca como dado sin mostrar error · 3a 404 «La publicación ya no está disponible» → se recarga el listado.
+Errores: 1a 409 (ya lo había dado, p. ej. desde otra pestaña) → se marca como dado sin mostrar error · 3a 409 (ya lo había quitado) → se desmarca sin mostrar error · 3b 404 «La publicación ya no está disponible» → se recarga el listado.
 
 **CU-08 Dar de baja una publicación** (S2; admin S4 · autor o admin · E-08)
 1. «Eliminar» (visible solo si es autor o admin). 2. Modal «¿Eliminar esta publicación? Sus comentarios dejarán de verse.». 3. E-08 → 200. 4. Se quita del listado (o se vuelve a /publicaciones si estaba en el detalle).
@@ -311,7 +311,7 @@ Guard: **Público** = sin token · **JWT** = JwtAuthGuard (token válido y usuar
 | E-07 | GET /publicaciones/:id | JWT | Param: id | 200 publicación | 400 id inválido · 401 · 404 inexistente o dada de baja | S3 |
 | E-08 | DELETE /publicaciones/:id | JWT (autor o admin) | Param: id | 200 `{ mensaje }` | 400 id inválido · 401 · 403 no es autor ni admin · 404 | S2 (admin: S4) |
 | E-09 | POST /publicaciones/:id/me-gusta | JWT | Param: id | 201 `{ cantidadMeGusta, meGustaDado: true }` | 400 · 401 · 404 · 409 ya dio me gusta | S2 |
-| E-10 | DELETE /publicaciones/:id/me-gusta | JWT | Param: id | 200 `{ cantidadMeGusta, meGustaDado: false }` | 400 · 401 · 404 publicación inexistente o me gusta no dado | S2 |
+| E-10 | DELETE /publicaciones/:id/me-gusta | JWT | Param: id | 200 `{ cantidadMeGusta, meGustaDado: false }` | 400 · 401 · 404 publicación inexistente · 409 me gusta no dado | S2 |
 | E-11 | GET /publicaciones/:publicacionId/comentarios | JWT | Param: publicacionId · Query: offset (def. 0) · limit (def. 5, máx. 50) | 200 `{ datos, total, offset, limit }` | 400 · 401 · 404 inexistente o dada de baja | S3 |
 | E-12 | POST /publicaciones/:publicacionId/comentarios | JWT | JSON: mensaje | 201 comentario | 400 validación · 401 · 404 publicación | S3 |
 | E-13 | PUT /publicaciones/:publicacionId/comentarios/:comentarioId | JWT (autor del comentario) | JSON: mensaje | 200 comentario con modificado: true | 400 validación · 401 · 403 no es el autor · 404 comentario o publicación | S3 |
@@ -397,7 +397,7 @@ Paginado y error:
 | S-10 | Publicaciones: 10 por página (offset/limit), paginación tradicional con Anterior/Siguiente e indicador «Página X de Y». |
 | S-11 | Comentarios: 5 por carga; «Cargar más» pide el siguiente bloque y lo agrega debajo. |
 | S-12 | Mi Perfil muestra hasta 3 comentarios (los más recientes) por publicación, con enlace al detalle. |
-| S-13 | Me gusta repetido → 409. Quitar un me gusta no dado → 404. |
+| S-13 | Me gusta repetido → 409. Quitar un me gusta no dado → 409. |
 | S-14 | Una publicación dada de baja (y sus comentarios) no se muestra en ninguna pantalla ni cuenta en estadísticas. Los comentarios no se modifican: se ocultan filtrando por publicación activa. |
 | S-15 | Si el usuario no extiende la sesión, al vencer el token (15 min) se cierra la sesión y se redirige al login con mensaje en modal. |
 | S-16 | Usuario deshabilitado con token vigente recibe 403 en cualquier ruta protegida; el front cierra la sesión y muestra el aviso. |

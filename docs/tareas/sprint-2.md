@@ -31,7 +31,7 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 ### [~] S2-04 · Back: me gusta — POST y DELETE /publicaciones/:id/me-gusta (E-09, E-10)
 - **Qué:** updates atómicos con `findOneAndUpdate` (Doc 2 §7.4): `$addToSet` + `$inc` y `$pull` + `$inc` en la misma operación.
 - **Docs:** Doc 1 CU-07, RN-04, S-13 · Doc 2 §7.4.
-- **Validar:** dar me gusta → 201; repetirlo → 409 y el contador sube solo 1; quitarlo → 200; quitar uno no dado → 404; id inexistente → 404.
+- **Validar:** dar me gusta → 201; repetirlo → 409 y el contador sube solo 1; quitarlo → 200; quitar uno no dado → 409; id inexistente → 404.
 - **Depende de:** S2-02
 
 ### [~] S2-05 · Back: baja lógica — DELETE /publicaciones/:id (E-08)

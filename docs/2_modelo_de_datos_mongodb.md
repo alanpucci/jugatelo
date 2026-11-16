@@ -402,7 +402,10 @@ const pub2 = await this.publicacionModel.findOneAndUpdate(
   { $pull: { meGusta: yo }, $inc: { cantidadMeGusta: -1 } },
   { returnDocument: 'after', projection: { cantidadMeGusta: 1 } },
 );
-if (!pub2) throw new NotFoundException('No habías dado me gusta a esta publicación'); // S-13
+if (!pub2) {
+  await this.asegurarPublicacionActiva(id);
+  throw new ConflictException('No habías dado me gusta a esta publicación'); // S-13
+}
 return { cantidadMeGusta: pub2.cantidadMeGusta, meGustaDado: false };
 ```
 

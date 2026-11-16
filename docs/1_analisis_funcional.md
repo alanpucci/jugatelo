@@ -293,7 +293,7 @@ Alta: los mismos campos del Registro + radio buttons perfil: «usuario» (marcad
 Mensajes: «¿Deshabilitar a @usuario? No podrá ingresar a la aplicación.» · 201 «Usuario creado» · 409 duplicado. Acciones: crear · deshabilitar · habilitar.
 
 ### 6.8 Dashboard Estadísticas (/dashboard/estadisticas · S4 · E-18, E-19, E-20)
-Elementos: filtro desde/hasta (inputs date) + «Aplicar» · tarjeta con el total de comentarios · tres gráficos (ng2-charts): barras, líneas y dona.
+Elementos: filtro desde/hasta (inputs date) + «Aplicar» · tarjeta con el total de comentarios · tres gráficos (Chart.js): barras, líneas y dona. La dona muestra hasta 8 publicaciones (los 8 colores categóricos validados); E-20 devuelve el top 10 (S-18).
 Validaciones: desde y hasta requeridas; desde ≤ hasta; hasta ≤ hoy. Mensajes: «Sin datos en el período» por gráfico · error 400 en modal.
 
 ## 7. Tabla de endpoints

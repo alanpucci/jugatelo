@@ -1,9 +1,12 @@
 <section class="pagina ancha">
   <div class="encabezado">
     <h1 class="titulo">Usuarios</h1>
-    <button type="button" class="boton" (click)="alternarFormulario()">
-      {{ mostrandoFormulario() ? 'Cancelar' : 'Nuevo usuario' }}
-    </button>
+    <div class="acciones">
+      <a class="boton boton-secundario" routerLink="/dashboard/estadisticas">Ver estadísticas</a>
+      <button type="button" class="boton" (click)="alternarFormulario()">
+        {{ mostrandoFormulario() ? 'Cancelar' : 'Nuevo usuario' }}
+      </button>
+    </div>
   </div>
 
   @if (mostrandoFormulario()) {

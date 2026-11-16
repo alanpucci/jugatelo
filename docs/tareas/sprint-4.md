@@ -46,8 +46,8 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** el listado coincide con la base; alta de admin → fila nueva; deshabilitar/habilitar cambia el estado; la fila propia no tiene acción.
 - **Depende de:** S4-01, S4-04
 
-### [ ] S4-06 · Front: Dashboard Estadísticas con Chart.js
-- **Qué:** instalar `chart.js`; `EstadisticasService`; `DashboardEstadisticasComponent` con filtro desde/hasta (defecto últimos 30 días), `forkJoin` de E-18, E-19 y E-20, y tres gráficos (barras, líneas, dona) dibujados con Chart.js.
+### [~] S4-06 · Front: Dashboard Estadísticas con Chart.js
+- **Qué:** instalar `chart.js` (se usa directo, sin `ng2-charts`); `EstadisticasService`; `DashboardEstadisticasComponent` con filtro desde/hasta (defecto últimos 30 días), `Promise.all` de E-18, E-19 y E-20, y tres gráficos (barras, líneas, dona) dibujados con Chart.js.
 - **Docs:** Doc 1 CU-13, §6.8, RF-36 a RF-40 · Doc 3 §6.2.
 - **Validar:** cambiar el lapso modifica los tres gráficos; `desde > hasta` muestra validación; sin datos aparece «Sin datos en el período».
 - **Depende de:** S4-02, S4-04

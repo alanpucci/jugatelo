@@ -262,7 +262,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] DashboardUsuariosComponent: tabla (foto, nombreCompleto, nombreUsuario, correo, perfil, estado), acciones Deshabilitar / Habilitar con confirmación; el propio usuario no puede deshabilitarse.
 - [ ] FormularioUsuarioComponent en modo admin: radio buttons perfil «usuario» / «administrador» → E-15.
 - [ ] UsuariosService y EstadisticasService.
-- [ ] DashboardEstadisticasComponent: filtro desde/hasta (defecto últimos 30 días, S-18), `forkJoin` de E-18, E-19 y E-20, tres gráficos.
+- [ ] DashboardEstadisticasComponent: filtro desde/hasta (defecto últimos 30 días, S-18), `Promise.all` de E-18, E-19 y E-20, tres gráficos.
 - [ ] LoginComponent y errorInterceptor: 403 de usuario deshabilitado → modal con el mensaje de RN-07.
 - [ ] `ng add @angular/pwa`: manifest con nombre «Jugátelo», colores e íconos; en `ngsw-config` no cachear `/auth/*`.
 - [ ] Pipes finales: tiempoRelativo, truncar, nombreCompleto. Directivas finales: appSoloAdmin, appImagenRespaldo, appMostrarContrasena.
@@ -305,7 +305,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] Se pueden señalar en el código 3 pipes y 3 directivas propias en uso.
 
 ### 6.7 Gráficos (Dashboard Estadísticas)
-Librería sugerida: **Chart.js** con **ng2-charts** (directiva `baseChart`, compatible con standalone).
+Librería: **Chart.js** usada directamente (sin wrapper): un `<canvas>` por gráfico con `viewChild` y `new Chart(...)`; se destruye y se vuelve a crear al aplicar un lapso nuevo.
 
 | Estadística | Endpoint | Tipo | Datos |
 |---|---|---|---|
@@ -314,13 +314,14 @@ Librería sugerida: **Chart.js** con **ng2-charts** (directiva `baseChart`, comp
 | Comentarios en cada publicación en el lapso | E-20 | Dona (o torta) | labels = título (truncar) · data = cantidad |
 
 ```
-npm install chart.js ng2-charts
-
-// app.config.ts
-providers: [ provideCharts(withDefaultRegisterables()), ... ]
+npm install chart.js
 
 // dashboard-estadisticas.component.html
-<canvas baseChart [type]="'bar'" [data]="publicacionesPorUsuario" [options]="opcionesBarras"></canvas>
+<canvas #lienzoBarras></canvas>
+
+// dashboard-estadisticas.component.ts
+Chart.register(BarController, BarElement, LineController, LineElement, DoughnutController, ArcElement, ...);
+this.graficoBarras = new Chart(this.lienzoBarras()!.nativeElement, { type: 'bar', data, options });
 ```
 
 ## 7. Estructura de carpetas sugerida
@@ -331,7 +332,7 @@ providers: [ provideCharts(withDefaultRegisterables()), ... ]
 ```
 src/
 ├─ app/
-│  ├─ app.config.ts        # provideRouter, provideHttpClient(withInterceptors([...])), charts, SW
+│  ├─ app.config.ts        # provideRouter, provideHttpClient(withInterceptors([...])), SW
 │  ├─ app.routes.ts        # rutas del Doc 1, cap. 6
 │  ├─ core/
 │  │  ├─ guards/           # auth.guard.ts · admin.guard.ts · invitado.guard.ts

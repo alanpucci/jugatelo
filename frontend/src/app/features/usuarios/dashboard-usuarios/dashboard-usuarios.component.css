@@ -84,3 +84,9 @@ th {
 .vacio {
   text-align: center;
 }
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-3);
+}

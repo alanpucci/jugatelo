@@ -1,0 +1,61 @@
+<section class="pagina ancha">
+  <div class="encabezado">
+    <h1 class="titulo">Estadísticas</h1>
+    <a class="boton boton-secundario" routerLink="/dashboard/usuarios">Ver usuarios</a>
+  </div>
+
+  <form class="tarjeta filtro" [formGroup]="formulario" (ngSubmit)="aplicar()">
+    <div class="campo">
+      <label for="desde">Desde</label>
+      <input id="desde" type="date" formControlName="desde" [max]="hoy" />
+      <span class="error-campo">{{ mensajeError('desde') }}</span>
+    </div>
+    <div class="campo">
+      <label for="hasta">Hasta</label>
+      <input id="hasta" type="date" formControlName="hasta" [max]="hoy" />
+      <span class="error-campo">{{ mensajeError('hasta') }}</span>
+    </div>
+    <button type="submit" class="boton" [disabled]="formulario.invalid || cargando()">Aplicar</button>
+  </form>
+
+  @if (cargando()) {
+    <app-spinner />
+  }
+
+  <div class="tarjeta total">
+    <span class="cifra">{{ total() }}</span>
+    <span class="rotulo">comentarios en el período</span>
+  </div>
+
+  <div class="graficos">
+    <div class="tarjeta">
+      <h2>Publicaciones por usuario</h2>
+      <div class="grafico">
+        <canvas #lienzoBarras></canvas>
+        @if (!hayBarras() && !cargando()) {
+          <p class="sin-datos">Sin datos en el período</p>
+        }
+      </div>
+    </div>
+
+    <div class="tarjeta">
+      <h2>Comentarios por día</h2>
+      <div class="grafico">
+        <canvas #lienzoLineas></canvas>
+        @if (!hayLineas() && !cargando()) {
+          <p class="sin-datos">Sin datos en el período</p>
+        }
+      </div>
+    </div>
+
+    <div class="tarjeta">
+      <h2>Comentarios por publicación</h2>
+      <div class="grafico grafico-dona">
+        <canvas #lienzoDona></canvas>
+        @if (!hayDona() && !cargando()) {
+          <p class="sin-datos">Sin datos en el período</p>
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -40,3 +40,27 @@ export const jugadoresCoherentes: ValidatorFn = (grupo: AbstractControl): Valida
   }
   return Number(minimo) <= Number(maximo) ? null : { jugadoresIncoherentes: true };
 };
+
+export function fechaLocal(fecha: Date) {
+  const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+  const dia = String(fecha.getDate()).padStart(2, '0');
+  return `${fecha.getFullYear()}-${mes}-${dia}`;
+}
+
+export const hastaNoFutura: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  if (!control.value) {
+    return null;
+  }
+  return control.value <= fechaLocal(new Date()) ? null : { fechaFutura: true };
+};
+
+export function desdeAntesDeHasta(campoDesde: string, campoHasta: string): ValidatorFn {
+  return (grupo: AbstractControl): ValidationErrors | null => {
+    const desde = grupo.get(campoDesde)?.value;
+    const hasta = grupo.get(campoHasta)?.value;
+    if (!desde || !hasta) {
+      return null;
+    }
+    return desde <= hasta ? null : { rangoInvalido: true };
+  };
+}

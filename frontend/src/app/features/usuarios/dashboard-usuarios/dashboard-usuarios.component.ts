@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
@@ -15,7 +16,7 @@ import { UsuariosService } from '../usuarios.service';
 
 @Component({
   selector: 'app-dashboard-usuarios',
-  imports: [FormularioUsuarioComponent, ImagenRespaldoDirective, NombreCompletoPipe, SpinnerComponent],
+  imports: [FormularioUsuarioComponent, ImagenRespaldoDirective, NombreCompletoPipe, RouterLink, SpinnerComponent],
   templateUrl: './dashboard-usuarios.component.html',
   styleUrl: './dashboard-usuarios.component.css',
 })

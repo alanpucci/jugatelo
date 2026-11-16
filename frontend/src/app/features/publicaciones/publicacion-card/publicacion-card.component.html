@@ -81,6 +81,7 @@
         </button>
         @if (!detalleCompleto()) {
           <button type="button" class="enlace" (click)="verComentarios()">Ver comentarios</button>
+          <button type="button" class="enlace" [routerLink]="['/publicaciones', publicacion._id]">Ver publicación</button>
         }
         @if (puedeEliminar()) {
           <button type="button" class="eliminar" (click)="eliminar()">Eliminar</button>

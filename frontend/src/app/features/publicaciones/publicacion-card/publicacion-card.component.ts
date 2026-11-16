@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Component, OnInit, inject, input, output, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
 import { ImagenRespaldoDirective } from '../../../shared/directivas/imagen-respaldo.directive';
@@ -13,7 +14,7 @@ import { PublicacionesService } from '../publicaciones.service';
 
 @Component({
   selector: 'app-publicacion-card',
-  imports: [ImagenRespaldoDirective, TiempoRelativoPipe, TruncarPipe],
+  imports: [ImagenRespaldoDirective, RouterLink, TiempoRelativoPipe, TruncarPipe],
   templateUrl: './publicacion-card.component.html',
   styleUrl: './publicacion-card.component.css',
 })

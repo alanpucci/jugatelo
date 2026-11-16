@@ -149,7 +149,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] `POST /publicaciones`: `FileInterceptor('imagen')`, subir a `jugatelo/publicaciones`, usuario = id del token → 201.
 - [ ] `GET /publicaciones` con las consultas (`find` + `populate`) del Doc 2, 7.1 y 7.3 (meGustaDado, autor, comentarios opcionales, filtros tipo y zona).
 - [ ] `DELETE /publicaciones/:id`: autor o administrador (ya preparado para S4), `activa = false` → 200.
-- [ ] `POST` y `DELETE /publicaciones/:id/me-gusta` con updates atómicos (Doc 2, 7.4): 201 / 409 / 200 / 404.
+- [ ] `POST` y `DELETE /publicaciones/:id/me-gusta` con updates atómicos (Doc 2, 7.4): 201 / 409 / 200 / 409 / 404.
 - [ ] AdminGuard escrito (se usa en S4) — *adelantado*.
 
 ### 4.4 Endpoints nuevos
@@ -172,7 +172,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] `GET /publicaciones?tipo=juntada&zona=crespo` devuelve solo juntadas cuya zona contiene «crespo» (sin distinguir mayúsculas); `tipo=otro` → 400.
 - [ ] Crear una `juntada` sin zona o con fecha pasada → 400; crear un `juego` con zona → 400 (RN-14).
 - [ ] Dar me gusta dos veces seguidas (Postman) → 201 y luego 409; `cantidadMeGusta` sube solo 1.
-- [ ] Quitar un me gusta no dado → 404 (S-13).
+- [ ] Quitar un me gusta no dado → 409 (S-13).
 - [ ] DELETE de una publicación ajena con perfil usuario → 403; la propia → 200, desaparece del listado y en Atlas queda `activa: false`.
 - [ ] Publicar con imagen de 3 MB o `.gif` → 400 y modal.
 - [ ] Mi Perfil muestra todos los datos del usuario, su foto y sus últimas 3 publicaciones (sección comentarios vacía hasta S3).
@@ -269,7 +269,7 @@ Verificar las condiciones vigentes de los planes gratuitos al elegir.
 - [ ] Repaso visual completo de uniformidad (RNF-01).
 
 ### 6.3 Checklist Back (NestJS)
-- [ ] UsuariosController con `@UseGuards(JwtAuthGuard, AdminGuard)`: GET, POST, DELETE `/:id`, POST `/:id/habilitar` (`@HttpCode(200)`).
+- [ ] UsuariosController (en UsuariosAdminModule) con `@UseGuards(JwtAuthGuard, AdminGuard)`: GET, POST, DELETE `/:id`, POST `/:id/habilitar` (`@HttpCode(200)`).
 - [ ] CrearUsuarioDto = campos de RegistroDto + `perfil` (`@IsIn(['usuario', 'administrador'])`).
 - [ ] Reutilizar la lógica de alta del registro (hash, unicidad, Cloudinary) desde UsuariosService.
 - [ ] `DELETE /usuarios/:id`: `habilitado = false`; 400 si es el propio administrador (S-17).

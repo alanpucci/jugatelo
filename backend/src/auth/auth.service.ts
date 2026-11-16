@@ -1,6 +1,4 @@
 import {
-  BadRequestException,
-  ConflictException,
   ForbiddenException,
   Injectable,
   UnauthorizedException,
@@ -8,7 +6,6 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import type { Request } from 'express';
-import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
 import { UsuarioDocument } from '../usuarios/esquemas/usuario.schema.js';
 import {
   UsuariosService,
@@ -18,56 +15,18 @@ import { LoginDto } from './dto/login.dto.js';
 import { RegistroDto } from './dto/registro.dto.js';
 import { JwtPayload } from './interfaces/jwt-payload.interface.js';
 
-const CARPETA_PERFILES = 'jugatelo/perfiles';
+const MENSAJE_DESHABILITADO =
+  'Tu cuenta está deshabilitada. Contactá a un administrador.';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usuariosService: UsuariosService,
-    private readonly cloudinaryService: CloudinaryService,
     private readonly jwtService: JwtService,
   ) {}
 
   async registrar(dto: RegistroDto, imagen?: Express.Multer.File) {
-    if (dto.contrasena !== dto.repetirContrasena) {
-      throw new BadRequestException('Las contraseñas no coinciden');
-    }
-
-    if (await this.usuariosService.buscarPorCorreo(dto.correo)) {
-      throw new ConflictException('Ese correo ya está registrado');
-    }
-    if (await this.usuariosService.buscarPorNombreUsuario(dto.nombreUsuario)) {
-      throw new ConflictException('Ese nombre de usuario ya existe');
-    }
-
-    const contrasena = await bcrypt.hash(dto.contrasena, 10);
-    const subida = imagen
-      ? await this.cloudinaryService.subirImagen(
-          imagen.buffer,
-          CARPETA_PERFILES,
-        )
-      : null;
-
-    let usuario: UsuarioDocument;
-    try {
-      usuario = await this.usuariosService.crear({
-        nombre: dto.nombre,
-        apellido: dto.apellido,
-        correo: dto.correo,
-        nombreUsuario: dto.nombreUsuario,
-        contrasena,
-        fechaNacimiento: dto.fechaNacimiento,
-        descripcion: dto.descripcion,
-        imagenPerfilUrl: subida?.url ?? null,
-        imagenPerfilPublicId: subida?.publicId ?? null,
-      });
-    } catch (error) {
-      if (subida) {
-        await this.cloudinaryService.eliminarImagen(subida.publicId);
-      }
-      throw error;
-    }
-
+    const usuario = await this.usuariosService.crear(dto, imagen);
     return this.armarRespuesta(usuario);
   }
 
@@ -78,6 +37,10 @@ export class AuthService {
 
     if (!usuario || !coincide) {
       throw new UnauthorizedException('Correo o contraseña incorrectos');
+    }
+
+    if (!usuario.habilitado) {
+      throw new ForbiddenException(MENSAJE_DESHABILITADO);
     }
 
     return this.armarRespuesta(usuario);
@@ -112,7 +75,7 @@ export class AuthService {
       throw new UnauthorizedException('Sesión no válida');
     }
     if (!usuario.habilitado) {
-      throw new ForbiddenException('Tu usuario está deshabilitado');
+      throw new ForbiddenException(MENSAJE_DESHABILITADO);
     }
 
     return usuario;

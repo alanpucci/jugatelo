@@ -27,12 +27,12 @@
   <div class="fila">
     <div class="campo">
       <label for="contrasena">Contraseña</label>
-      <input id="contrasena" type="password" formControlName="contrasena" />
+      <input id="contrasena" type="password" appMostrarContrasena formControlName="contrasena" />
       <span class="error-campo">{{ mensajeError('contrasena') }}</span>
     </div>
     <div class="campo">
       <label for="repetirContrasena">Repetir contraseña</label>
-      <input id="repetirContrasena" type="password" formControlName="repetirContrasena" />
+      <input id="repetirContrasena" type="password" appMostrarContrasena formControlName="repetirContrasena" />
       <span class="error-campo">{{ mensajeError('repetirContrasena') }}</span>
     </div>
   </div>

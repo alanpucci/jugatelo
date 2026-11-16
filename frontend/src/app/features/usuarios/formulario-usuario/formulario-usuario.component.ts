@@ -1,5 +1,6 @@
 import { Component, OnInit, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MostrarContrasenaDirective } from '../../../shared/directivas/mostrar-contrasena.directive';
 import { contrasenaSegura, contrasenasIguales, fechaAnteriorAHoy } from '../../../shared/validadores/validadores';
 
 export interface DatosFormularioUsuario {
@@ -13,7 +14,7 @@ const SOLO_LETRAS = /^[\p{L} ]+$/u;
 
 @Component({
   selector: 'app-formulario-usuario',
-  imports: [ReactiveFormsModule],
+  imports: [MostrarContrasenaDirective, ReactiveFormsModule],
   templateUrl: './formulario-usuario.component.html',
   styleUrl: './formulario-usuario.component.css',
 })

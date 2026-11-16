@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
 import { ImagenRespaldoDirective } from '../../../shared/directivas/imagen-respaldo.directive';
+import { NombreCompletoPipe } from '../../../shared/pipes/nombre-completo.pipe';
 import { PaginadorComponent } from '../../../shared/paginador/paginador.component';
 import { PublicacionCardComponent } from '../../publicaciones/publicacion-card/publicacion-card.component';
 import { Publicacion } from '../../publicaciones/publicacion.model';
@@ -14,7 +15,7 @@ const POR_PAGINA = 3;
 
 @Component({
   selector: 'app-mi-perfil',
-  imports: [DatePipe, RouterLink, ImagenRespaldoDirective, PaginadorComponent, PublicacionCardComponent],
+  imports: [DatePipe, RouterLink, ImagenRespaldoDirective, NombreCompletoPipe, PaginadorComponent, PublicacionCardComponent],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css',
 })

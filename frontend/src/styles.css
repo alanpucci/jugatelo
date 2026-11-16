@@ -302,3 +302,16 @@ select:focus,
     transform: rotate(360deg);
   }
 }
+
+.alternar-contrasena {
+  align-self: flex-end;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--azul);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}

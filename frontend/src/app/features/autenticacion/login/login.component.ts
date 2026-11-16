@@ -5,11 +5,12 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { ModalService } from '../../../core/modal.service';
 import { MENSAJE_USUARIO_DESHABILITADO } from '../../../core/token.interceptor';
+import { MostrarContrasenaDirective } from '../../../shared/directivas/mostrar-contrasena.directive';
 import { contrasenaSegura } from '../../../shared/validadores/validadores';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [MostrarContrasenaDirective, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

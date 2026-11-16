@@ -7,7 +7,7 @@
         <span class="foto foto-vacia">{{ usuario.nombre[0] }}</span>
       }
       <div>
-        <h1>{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+        <h1>{{ usuario | nombreCompleto }}</h1>
         <p class="dato">&#64;{{ usuario.nombreUsuario }}</p>
         <p class="dato">{{ usuario.correo }}</p>
         <p class="dato">Nacimiento: {{ usuario.fechaNacimiento | date: 'dd/MM/yyyy' }}</p>

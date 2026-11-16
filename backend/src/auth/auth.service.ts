@@ -6,6 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import type { Request } from 'express';
+import { ActualizarPerfilDto } from '../usuarios/dto/actualizar-perfil.dto.js';
 import { UsuarioDocument } from '../usuarios/esquemas/usuario.schema.js';
 import {
   UsuariosService,
@@ -49,6 +50,20 @@ export class AuthService {
   async autorizar(peticion: Request) {
     const usuario = await this.obtenerUsuarioDelToken(peticion);
     return { usuario: mapearUsuario(usuario) };
+  }
+
+  async actualizarPerfil(
+    peticion: Request,
+    dto: ActualizarPerfilDto,
+    imagen?: Express.Multer.File,
+  ) {
+    const usuario = await this.obtenerUsuarioDelToken(peticion);
+    const actualizado = await this.usuariosService.actualizarPerfil(
+      usuario,
+      dto,
+      imagen,
+    );
+    return { usuario: actualizado, token: await this.firmarToken(usuario) };
   }
 
   async refrescar(peticion: Request) {

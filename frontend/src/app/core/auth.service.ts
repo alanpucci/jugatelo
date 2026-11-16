@@ -38,6 +38,14 @@ export class AuthService {
     this.haySesion.set(true);
   }
 
+  async actualizarPerfil(formData: FormData) {
+    const respuesta = await firstValueFrom(
+      this.http.patch<RespuestaAuth>(`${environment.apiUrl}/auth/perfil`, formData),
+    );
+    this.tokenService.guardar(respuesta.token);
+    this.usuarioActual.set(respuesta.usuario);
+  }
+
   async refrescar() {
     const respuesta = await firstValueFrom(
       this.http.post<RespuestaRefrescar>(`${environment.apiUrl}/auth/refrescar`, {}),

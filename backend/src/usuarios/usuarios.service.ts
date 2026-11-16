@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { RegistroDto } from '../auth/dto/registro.dto.js';
 import { CloudinaryService } from '../cloudinary/cloudinary.service.js';
+import { ActualizarPerfilDto } from './dto/actualizar-perfil.dto.js';
 import { Perfil, Usuario, UsuarioDocument } from './esquemas/usuario.schema.js';
 
 const CARPETA_PERFILES = 'jugatelo/perfiles';
@@ -95,6 +96,47 @@ export class UsuariosService {
       }
       throw error;
     }
+  }
+
+  async actualizarPerfil(
+    usuario: UsuarioDocument,
+    dto: ActualizarPerfilDto,
+    imagen?: Express.Multer.File,
+  ) {
+    if (dto.nombreUsuario) {
+      const existente = await this.buscarPorNombreUsuario(dto.nombreUsuario);
+      if (existente && existente.id !== usuario.id) {
+        throw new ConflictException('Ese nombre de usuario ya existe');
+      }
+    }
+
+    const subida = imagen
+      ? await this.cloudinaryService.subirImagen(
+          imagen.buffer,
+          CARPETA_PERFILES,
+        )
+      : null;
+    const publicIdAnterior = usuario.imagenPerfilPublicId;
+
+    usuario.set(dto);
+    if (subida) {
+      usuario.imagenPerfilUrl = subida.url;
+      usuario.imagenPerfilPublicId = subida.publicId;
+    }
+
+    try {
+      await usuario.save();
+    } catch (error) {
+      if (subida) {
+        await this.cloudinaryService.eliminarImagen(subida.publicId);
+      }
+      throw error;
+    }
+
+    if (subida && publicIdAnterior) {
+      await this.cloudinaryService.eliminarImagen(publicIdAnterior);
+    }
+    return mapearUsuario(usuario);
   }
 
   deshabilitar(id: string, idSolicitante: string) {

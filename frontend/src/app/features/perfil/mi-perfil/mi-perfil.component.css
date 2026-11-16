@@ -60,3 +60,27 @@
   border-radius: var(--radio);
   box-shadow: var(--sombra-chica);
 }
+
+.fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--espacio-4);
+}
+
+.vista-previa {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: 50%;
+  border: var(--borde);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-3);
+}
+
+.cabecera .boton {
+  margin-top: var(--espacio-3);
+}

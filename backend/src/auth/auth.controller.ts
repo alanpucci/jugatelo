@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   HttpCode,
+  Patch,
   Post,
   Req,
   UploadedFile,
@@ -12,6 +13,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { crearPipeImagen } from '../comun/validadores/imagen.validator.js';
 import { AuthService } from './auth.service.js';
+import { ActualizarPerfilDto } from '../usuarios/dto/actualizar-perfil.dto.js';
 import { LoginDto } from './dto/login.dto.js';
 import { RegistroDto } from './dto/registro.dto.js';
 
@@ -40,6 +42,18 @@ export class AuthController {
   @HttpCode(200)
   autorizar(@Req() peticion: Request) {
     return this.authService.autorizar(peticion);
+  }
+
+  @Patch('perfil')
+  @UseInterceptors(
+    FileInterceptor('imagenPerfil', { storage: memoryStorage() }),
+  )
+  actualizarPerfil(
+    @Req() peticion: Request,
+    @Body() dto: ActualizarPerfilDto,
+    @UploadedFile(crearPipeImagen()) imagen?: Express.Multer.File,
+  ) {
+    return this.authService.actualizarPerfil(peticion, dto, imagen);
   }
 
   @Post('refrescar')

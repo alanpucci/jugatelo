@@ -16,8 +16,8 @@ Cada tarea se valida antes de pasar a la siguiente. Orden: primero el back (se p
 - **Validar:** con perfil usuario `GET /usuarios` → 403; con admin → 200 sin `contrasena`; POST con perfil «administrador» → 201; correo repetido → 409; `DELETE /usuarios/<mi id>` → 400; deshabilitar a otro → 200 y su login → 403; habilitarlo → 200 y vuelve a ingresar; `POST /auth/registro` con `perfil` → 400.
 - **Depende de:** S3-01
 
-### [ ] S4-02 · Back: estadísticas — GET /estadisticas/* (E-18, E-19, E-20)
-- **Qué:** `EstadisticasController` en `PublicacionesModule` con `@UseGuards(JwtAuthGuard, AdminGuard)`; `RangoFechasQueryDto` (desde ≤ hasta, hora de Argentina); aggregations del Doc 2 §7.7 (se usa `aggregate` porque `populate` no alcanza para `$group`); índice `{ createdAt: 1 }` en publicaciones y comentarios.
+### [~] S4-02 · Back: estadísticas — GET /estadisticas/* (E-18, E-19, E-20)
+- **Qué:** `EstadisticasController` en `PublicacionesModule` con `@UseGuards(JwtAuthGuard, AdminGuard)`; `RangoFechasQueryDto` (desde ≤ hasta, hora de Argentina); aggregations del Doc 2 §7.7 (se usa `aggregate` porque `populate` no alcanza para `$group`). El índice `{ createdAt: 1 }` no va en los schemas (commit 1b298c1): se crea en Atlas.
 - **Docs:** Doc 1 RF-36 a RF-39, CU-13, E-18 a E-20, S-14, S-18 · Doc 2 §7.7.
 - **Validar:** con admin y un rango con datos → 200 con la forma del Doc 1; `desde > hasta` o fecha inválida → 400; con perfil usuario → 403; un comentario de una publicación dada de baja no cuenta.
 - **Depende de:** S4-01
